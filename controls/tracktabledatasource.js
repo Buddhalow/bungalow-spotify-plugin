@@ -15,7 +15,7 @@ define(['controls/tabledatasource', 'plugins/spotify/store'], function (SPTableD
         async fetchNext() {
 
             let result = await store.request('GET', this.uri, {q: this.q, limit: this.limit, offset: this.offset});
-            if ('objects' in result && result.objects instanceof Array)
+            if (!!result && 'objects' in result && result.objects instanceof Array)
             this.objects = result.objects;
             if (this.onchange instanceof Function) {
                 this.onchange.call(this);

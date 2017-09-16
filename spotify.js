@@ -14,7 +14,8 @@ define([
     'plugins/spotify/views/country',
     'plugins/spotify/views/genre',
     'plugins/spotify/views/curator',
-    'plugins/spotify/views/audiobook'
+    'plugins/spotify/views/audiobook',
+    'controls/menudatasource'
     ], function (
         store,
         SPPlaylistContextElement,
@@ -31,7 +32,8 @@ define([
         SPCountryViewElement,
         SPGenreViewElement,
         SPCuratorViewElement,   
-        SPAudioBookViewElement
+        SPAudioBookViewElement,
+        SPMenuDataSource
         ) {
             document.registerElement('sp-playlist', SPPlaylistElement);
             document.registerElement('sp-playlistcontext', SPPlaylistContextElement);
@@ -40,6 +42,26 @@ define([
             document.addEventListener('hook_footer', (e) => {
                 document.querySelector('sp-hook[data-hook-id="footer"]').appendChild(document.createElement('sp-trackcontrols'));
             })
+            document.addEventListener('mainmenuload', (e) => {
+                let menu = document.createElement('sp-menu');
+                let sidebarmenu = document.querySelector('sp-sidebarmenu');
+                sidebarmenu.label = document.createElement('label');
+                sidebarmenu.label.innerHTML = _e('Spotify');
+                sidebarmenu.appendChild(sidebarmenu.label);
+                sidebarmenu.appendChild(menu);
+                menu.dataSource = new SPMenuDataSource(
+                    [
+                        {
+                            name: _e('Library'),
+                            uri: 'bungalow:internal:library'
+                        },
+                        {
+                            name: _e('Dr. Sounds'),
+                            uri: 'spotify:artist:2FOROU2Fdxew72QmueWSUy'
+                        }
+                    ]
+                );
+           });
             document.addEventListener('viewstackloaded', () => {
                 GlobalViewStack.registeredViews.push({
                     tag: 'sp-startview',
@@ -51,7 +73,11 @@ define([
                 });
                 GlobalViewStack.registeredViews.push({
                     tag: 'sp-playlistview',
-                    regex: /^bungalow:country:([0-9a-zA-Z]+):top:([0-9a-zA-Z]+)$/g
+                    regex: /^bungalow:internal:library$/g
+                });
+                GlobalViewStack.registeredViews.push({
+                    tag: 'sp-playlistview',
+                    regex: /^bungalow:(country|artist):([0-9a-zA-Z]+):top:([0-9a-zA-Z]+)$/g
                 });
                 GlobalViewStack.registeredViews.push({
                     tag: 'sp-playqueueview',

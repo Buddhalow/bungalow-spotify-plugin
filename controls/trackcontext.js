@@ -10,16 +10,15 @@ define([
         SPTrackTableDelegate
     ) {
     return class SPTrackContextElement extends SPTableElement {
-        attachedCallback() {
-            super.attachedCallback();
-            if (!this.created2) {
-                this.fields = ['name', 'version', 'artists', 'album'];
-                this.attributeChangedCallback('uri', null, this.getAttribute('uri'));
-                this.attributeChangedCallback('fields', null, this.getAttribute('fields'));
-                this.created2 = true;
-                this.delegate = new SPTrackTableDelegate(this);
-                
-            }
+        createdCallback() {
+            super.createdCallback();
+            this.fields = ['name', 'version', 'artists', 'album'];
+            this.attributeChangedCallback('uri', null, this.getAttribute('uri'));
+            this.attributeChangedCallback('fields', null, this.getAttribute('fields'));
+            this.created2 = true;
+            this.delegate = new SPTrackTableDelegate(this);
+            
+            
 
         }
         get maxRows() {
