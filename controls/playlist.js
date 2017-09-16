@@ -1,4 +1,4 @@
-define(['controls/resource', 'plugins/spotify/controls/trackcontext', 'controls/list'], function (SPResourceElement, SPTrackContextElement, SPListElement) {
+define(['controls/resource', 'plugins/spotify/controls/trackcontext', 'plugins/spotify/controls/list'], function (SPResourceElement, SPTrackContextElement, SPListElement) {
 
     function swatchToColor(color) {
         return 'rgba(' + color.rgb[0] + ',' + color.rgb[1] + ',' + color.rgb[2] + ', 0.3)';

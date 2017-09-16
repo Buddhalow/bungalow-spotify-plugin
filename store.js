@@ -126,7 +126,7 @@ define(['events'], function(EventEmitter) {
                 if (uri == null) return;
                 var url = uri;
                 if (uri.indexOf('bungalow:') == 0 || uri.indexOf('spotify:') == 0) {
-                    url = '/api/' + url.split(':').slice(1).join('/') + '?' + query;
+                    url = '/api/spotify/' + url.split(':').slice(1).join('/') + '?' + query;
                     if (uri in this.state && method == "GET" && cache)
                         return this.state[uri];
                     let result
@@ -158,7 +158,7 @@ define(['events'], function(EventEmitter) {
                 }
                 if (uri in this.state)
                     return this.state[uri];
-    
+                
                 let result = await fetch(url, {credentials: 'include', mode: 'cors'}).then((e) => e.json());
                 this.setState(uri, result);
     
@@ -173,19 +173,19 @@ define(['events'], function(EventEmitter) {
          **/
         async getAlbumById(id) {
             let uri = 'spotify:album:' + id;
-            let result = await fetch('/api/album/' + id, {credentials: 'include', mode: 'cors'}).then((e) => e.json())
+            let result = await fetch('/api/spotify/album/' + id, {credentials: 'include', mode: 'cors'}).then((e) => e.json())
             this.setState(uri, result);
             return result;
         }
         async getArtistById(id) {
             let uri = 'spotify:artist:' + id;
-            let result = await fetch('/api/artist/' + id, {credentials: 'include', mode: 'cors'}).then((e) => e.json());
+            let result = await fetch('/api/spotify/artist/' + id, {credentials: 'include', mode: 'cors'}).then((e) => e.json());
             this.setState(uri, result);
             return result;
         }
         login() {
             return new Promise((resolve, reject) => {
-                var loginWindow = window.open('/api/music/login');
+                var loginWindow = window.open('/api/spotify/music/login');
     
                 var t = setInterval(() => {
                     if (!loginWindow) {

@@ -1,4 +1,4 @@
-define(['controls/resource', 'plugins/spotify/controls/playlist', 'plugins/spotify/store'], function (SPResourceElement, SPPlaylistElement, store) {
+define(['plugins/spotify/controls/resource', 'plugins/spotify/controls/playlist', 'plugins/spotify/store'], function (SPResourceElement, SPPlaylistElement, store) {
     return class SPPlaylistContextElement extends SPResourceElement {
         async attributeChangedCallback(attrName, oldVal, newVal) {
             if (!newVal) return;

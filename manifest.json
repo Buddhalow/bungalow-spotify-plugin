@@ -1,4 +1,5 @@
 {
-    "BundleIdentifier": "spotify",
-    "VendorIdentifier": "qi.spotify"
+    "id": "spotify",
+    "name": "Spotify",
+    "vendor": "qi.spotify"
 }
