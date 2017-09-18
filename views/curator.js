@@ -22,6 +22,7 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
                 ]
             })
         }
+        // T
         async attributeChangedCallback(attrName, oldVal, newVal) {
             if (!newVal) return;
             if (attrName == 'uri') {
