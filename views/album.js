@@ -10,6 +10,10 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
         navigate() {
 
         }
+        activate() {
+            super.activate();
+            this.render();
+        }
         async attributeChangedCallback(attrName, oldVal, newVal) {
             if (!newVal) return;
             if (attrName === 'uri') {
@@ -19,8 +23,25 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
                 this.appendChild(this.albumView);
                 this.albumView.showCopyrights = true;
                 this.albumView.view = this;
+                let album = await store.request('GET', newVal);
                 this.albumView.setAttribute('uri', newVal);
+                this.setState(album);
             }
+        }
+        setState(state) {
+            this.state = state;
+            this.render();
+        }
+        render() {
+            GlobalTabBar.setState({
+                object: this.state,
+                objects: [
+                    {
+                        id: 'overview',
+                        name: _('Overview')
+                    }
+                ]
+            })
         }
     }
 

@@ -106,7 +106,23 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
                 }
                 
                 let result = await store.request('GET', newVal);
-                
+                GlobalTabBar.setState({
+                    object: this.state,
+                    objects: [
+                        {
+                            id: 'overview',
+                            name: _('Overview')
+                        },
+                        {
+                            id: 'related_artist',
+                            name: _('Related artists')
+                        },
+                        {
+                            id: 'about',
+                            name: _('About')
+                        }
+                    ]
+                })
                 this.overviewTab.toplist.setAttribute('uri', newVal + ':top:5');
                 this.state = result;
                 
