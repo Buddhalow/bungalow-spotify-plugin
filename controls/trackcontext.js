@@ -22,7 +22,7 @@ define([
 
         }
         get maxRows() {
-            return this.getAttribute('data-max-rows') || 28;
+            return this.getAttribute('data-max-rows') || 50;
         }
         attributeChangedCallback(attrName, oldVal, newVal) {
             if (attrName == 'fields') {

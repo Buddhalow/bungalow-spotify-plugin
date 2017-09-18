@@ -3,7 +3,7 @@ define(['plugins/spotify/controls/resource', 'plugins/spotify/controls/playlist'
         async attributeChangedCallback(attrName, oldVal, newVal) {
             if (!newVal) return;
             if (attrName == 'uri') {
-                this.limit = 30;
+                this.limit = 10;
                 this.offset = 1;
                 let uri = newVal;
                 let result = await store.request('GET', newVal, {limit: this.limit, offset: this.offset});

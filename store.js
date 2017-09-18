@@ -165,6 +165,7 @@ define(['events'], function(EventEmitter) {
     
                 return result;
             } catch (e) {
+                debugger;
                 alert("An error occured");
             }
         }
