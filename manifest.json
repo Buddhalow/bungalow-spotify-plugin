@@ -1,5 +1,7 @@
 {
     "id": "spotify",
     "name": "Spotify",
-    "vendor": "qi.spotify"
+    "vendor": "qi.spotify",
+    "version": "0.0.1",
+    "type": "plugin"
 }

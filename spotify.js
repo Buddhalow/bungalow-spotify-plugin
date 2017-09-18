@@ -15,6 +15,7 @@ define([
     'plugins/spotify/views/genre',
     'plugins/spotify/views/curator',
     'plugins/spotify/views/audiobook',
+    'plugins/spotify/views/search',
     'controls/menudatasource'
     ], function (
         store,
@@ -33,12 +34,14 @@ define([
         SPGenreViewElement,
         SPCuratorViewElement,   
         SPAudioBookViewElement,
+        SPSpotifySearchViewElement,
         SPMenuDataSource
         ) {
             document.registerElement('sp-playlist', SPPlaylistElement);
             document.registerElement('sp-playlistcontext', SPPlaylistContextElement);
             document.registerElement('sp-trackcontext', SPTrackContextElement);
             document.registerElement('sp-trackcontrols', SPTrackControlsElement);
+            document.registerElement('sp-spotifysearchview', SPSpotifySearchViewElement);
             document.addEventListener('hook_footer', (e) => {
                 document.querySelector('sp-hook[data-hook-id="footer"]').appendChild(document.createElement('sp-trackcontrols'));
             })
@@ -62,10 +65,29 @@ define([
                     ]
                 );
            });
+           document.addEventListener('hook_searchview', (e) => {
+               if (e.data instanceof Object) {
+                   let hook = document.querySelector('sp-hook[data-hook-id="searchview"]');
+                   
+                   let search = hook.querySelector('sp-spotifysearchview[uri="' + e.data.uri + '"]');
+                    if (!search) {
+                        search = document.createElement('sp-spotifysearchview');
+                        hook.appendChild(search);
+                        search.setAttribute('uri', e.data.uri);
+                        $(search).show();
+                    } else {
+                        $(search).show();
+                    }
+               }
+           })
             document.addEventListener('viewstackloaded', () => {
                 GlobalViewStack.registeredViews.push({
                     tag: 'sp-startview',
                     regex: /^bungalow:internal:start$/g
+                });
+                GlobalViewStack.registeredViews.push({
+                    tag: 'sp-searchview',
+                    regex: /^bungalow:search:(.*)$/g
                 });
                 GlobalViewStack.registeredViews.push({
                     tag: 'sp-playlistview',

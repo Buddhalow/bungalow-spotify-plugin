@@ -10,7 +10,7 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
             this.appendChild(this.trackcontext);
             this.trackcontext.setAttribute('headers', 'true');
             this.trackcontext.header = (this.header);
-            this.trackcontext.view = (this);
+            this.trackcontext.view = this.getParentElementByClass('sp-view');
             
 
         }
@@ -37,7 +37,7 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
         async attributeChangedCallback(attrName, oldVal, newVal) {
             if (!newVal) return;
             if (attrName === 'uri') {
-                let query = newVal.substr('bungalow:search:'.length);
+                let query = newVal.substr('bungalow:search:'.length).split(/\:/g)[0];
                 this.trackcontext.query = query;
                 this.trackcontext.setAttribute('uri', 'bungalow:search');
                 this.header.setState({
@@ -53,7 +53,5 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
             }
         }
     }
-
-    document.registerElement('sp-searchview', SPSearchViewElement);
     return SPSearchViewElement;
 });

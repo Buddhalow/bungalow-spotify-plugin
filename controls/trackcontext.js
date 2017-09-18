@@ -22,7 +22,7 @@ define([
 
         }
         get maxRows() {
-            return this.getAttribute('data-max-rows') || 0;
+            return this.getAttribute('data-max-rows') || 28;
         }
         attributeChangedCallback(attrName, oldVal, newVal) {
             if (attrName == 'fields') {
@@ -32,16 +32,19 @@ define([
             if (attrName == 'uri') {
                 this.designer = new SPTrackTableDesigner();
                 this.delegate = new SPTrackTableDelegate();
-                this.dataSource = new SPTrackTableDataSource(newVal, '', this.fields, this.maxRows);
+                this.dataSource = new SPTrackTableDataSource(newVal, this.query, this.fields, this.maxRows);
                 this.fetchNext();
             }
         }
         render() {
             super.render();
-            if (!this.getAttribute('headers')) {
-                let thead = this.querySelector('thead');
-                this.table.thead.style.display = 'none';
+           if (!this.getAttribute('headers')) {
+                this.table.thead.setAttribute('hidden', 'true');
 
+            } else {
+                if (this.table.thead.hasAttribute('hidden'))
+                this.table.thead.removeAttribute('hidden');
+                
             }
         }
     }

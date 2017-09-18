@@ -115,8 +115,10 @@ define(['events'], function(EventEmitter) {
             return result;
         }
         async request(method, uri, params, payload, cache=true) {
-            if (uri in this.state && method == "GET" && cache)
-                return this.state[uri];
+            if (!uri) return;
+            let strongUri = (uri + '?' + (!!params ? serializeObject(params) : ''));
+            if (strongUri in this.state && method == "GET" && cache)
+                return this.state[strongUri];
             try {
                 let esc = encodeURIComponent
                 let query = params ?  Object.keys(params)
@@ -127,8 +129,7 @@ define(['events'], function(EventEmitter) {
                 var url = uri;
                 if (uri.indexOf('bungalow:') == 0 || uri.indexOf('spotify:') == 0) {
                     url = '/api/spotify/' + url.split(':').slice(1).join('/') + '?' + query;
-                    if (uri in this.state && method == "GET" && cache)
-                        return this.state[uri];
+                    
                     let result
                     if (method === 'GET') {
                         result = await fetch(url, {

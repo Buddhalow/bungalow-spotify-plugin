@@ -83,6 +83,11 @@ define(['plugins/spotify/controls/resource', 'plugins/spotify/controls/playlist'
                 if (this.gondole)
                     this.removeChild(this.gondole);
             }
+            await new Promise((resolve, fail) => {
+                setTimeout(() => {
+                    resolve();
+                }, 1000)
+            });
         }
         get view() {
             return this._view;

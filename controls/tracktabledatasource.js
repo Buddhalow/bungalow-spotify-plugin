@@ -9,7 +9,7 @@ define(['controls/tabledatasource', 'plugins/spotify/store'], function (SPTableD
                 this.limitRows = true;
             }
             this.objects = [];
-            this.offset = 1;
+            this.offset = 0;
             this.fields = fields
         }
         async fetchNext() {
