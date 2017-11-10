@@ -20,13 +20,23 @@ define(['controls/resource', 'plugins/spotify/controls/trackcontext', 'plugins/s
         }
         renderTable(obj, dataContextUri) {
             
-            
             this.table = document.createElement('sp-trackcontext');
-            this.table.setAttribute('fields', 'name,artists,album,user,added_at');
+            this.table.addEventListener('rendered', () => {
+      
+                this.style.display = 'flex';
+               
+            })
+            if (this.hasAttribute('fields')) {
+                this.table.setAttribute('fields', this.getAttribute('fields'));
+            } else {
+                this.table.setAttribute('fields', 'name,artists,album,user,added_at');
+            }
             if (dataContextUri != null)
                 this.table.setAttribute('data-context-artist-uri', dataContextUri);
             this.table.setAttribute('uri', obj.uri + ':track');
             this.querySelector('.contents').appendChild(this.table);
+         
+          
         }
     }
 

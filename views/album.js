@@ -20,12 +20,16 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
                 this.obj = await store.request('GET', newVal);
                 this.innerHTML = '';
                 this.albumView = document.createElement('sp-playlist');
+                this.albumView.setAttribute('fields', 'p,name,duration,popularity,artists');
                 this.appendChild(this.albumView);
                 this.albumView.showCopyrights = true;
                 this.albumView.view = this;
                 let album = await store.request('GET', newVal);
                 this.albumView.setAttribute('uri', newVal);
                 this.setState(album);
+                this.contentHook = document.createElement('sp-hook');
+                this.contentHook.setAttribute('data-hook-id', 'albumview');
+                this.appendChild(this.contentHook);
             }
         }
         setState(state) {

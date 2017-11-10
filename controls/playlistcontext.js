@@ -3,8 +3,8 @@ define(['plugins/spotify/controls/resource', 'plugins/spotify/controls/playlist'
         async attributeChangedCallback(attrName, oldVal, newVal) {
             if (!newVal) return;
             if (attrName == 'uri') {
-                this.limit = 10;
-                this.offset = 1;
+                this.limit = 3;
+                this.offset = 0;
                 let uri = newVal;
                 let result = await store.request('GET', newVal, {limit: this.limit, offset: this.offset});
                 this.setState(result);
@@ -18,8 +18,11 @@ define(['plugins/spotify/controls/resource', 'plugins/spotify/controls/playlist'
         }
         createPlaylist (playlist) {
             let elm = document.createElement('sp-playlist');
-            if (this.hasAttribute('fields'))
+            if (this.hasAttribute('fields')) {
                 elm.setAttribute('fields', this.getAttribute('fields'));
+                debugger;
+                
+            }
             if (this.hasAttribute('data-context-artist-uri')) {
 
                 elm.setAttribute('data-context-artist-uri', this.getAttribute('data-context-artist-uri'));
@@ -31,7 +34,12 @@ define(['plugins/spotify/controls/resource', 'plugins/spotify/controls/playlist'
         }
         setState(obj) {
             if (obj && obj.objects instanceof Array) {
-                let albums = obj.objects.map((item) => {
+                let albums = obj.objects.map(async (item) => {
+                    await new Promise(async (resolve, fail) => {
+                        setTimeout(() => {
+                            resolve();
+                        }, 500)
+                    });
                     var a = document.createElement('sp-playlist');
                     if (this.hasAttribute('data-max-rows')) {
                         a.setAttribute('data-max-rows', this.getAttribute('data-max-rows'));
@@ -39,8 +47,9 @@ define(['plugins/spotify/controls/resource', 'plugins/spotify/controls/playlist'
                     if (this.hasAttribute('data-context-artist-uri')) {
                         a.setAttribute('data-context-artist-uri', this.getAttribute('data-context-artist-uri'));
                     }
-                    if (this.hasAttribute('fields'))
+                    if (this.hasAttribute('fields')) {
                         a.setAttribute('fields', this.getAttribute('fields'));
+                   }
                     let fields = a.fields;
 
                     a.setState(item);
@@ -49,8 +58,10 @@ define(['plugins/spotify/controls/resource', 'plugins/spotify/controls/playlist'
          
                     return a;
                 });
-                albums.forEach((album) => {
+                albums.forEach(async (_album) => {
+                    let album = await _album;
                     this.appendChild(album);
+                    
                 });
             }
             this.innerHTML += '<sp-gondole></sp-gondole>';

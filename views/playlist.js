@@ -9,6 +9,7 @@ define(['controls/view', 'plugins/spotify/controls/trackcontext', 'plugins/spoti
                 this.header.setAttribute('size', 128);
                 this.appendChild(this.header);
             }
+            
             if (!this.trackcontext) {
                 this.trackcontext = document.createElement('sp-trackcontext');
                 this.appendChild(this.trackcontext);
@@ -19,7 +20,7 @@ define(['controls/view', 'plugins/spotify/controls/trackcontext', 'plugins/spoti
 
             }
 
-
+            
 
         }
         acceptsUri(uri) {
@@ -45,7 +46,7 @@ define(['controls/view', 'plugins/spotify/controls/trackcontext', 'plugins/spoti
             if (attrName === 'uri') {
 
                 if (newVal in store.state) {
-                    this.setData(store.state[newVal]);
+                    this.setState(store.state[newVal]);
                     return;
                 }
                 this.trackcontext.setAttribute('uri', newVal + ':track');
@@ -53,6 +54,27 @@ define(['controls/view', 'plugins/spotify/controls/trackcontext', 'plugins/spoti
                 this.trackcontext.playlist = result;
 
                 this.state = result;
+               /* this.state.features = result.tracks.objects.map((o) => {
+                    return o.artists[0]
+                });
+                if (this.state.features.length > 0) {
+                    this.managerDivider.removeAttribute('hidden');
+                     this.state.features.slice(0, 6).map((obj) => {
+                         let a = document.createElement('sp-link');
+                         a.style.display = 'inline-block';
+                         a.style.textAlign = 'center';
+                         a.setAttribute('uri', obj.uri);
+                         let image = document.createElement('sp-image');
+                        image.setState(obj);
+                       
+                        image.style.display = 'inline-block';
+                        a.appendChild(image);
+                        a.innerHTML += '<br><span>' + obj.name + '</span>';
+                         this.manager.appendChild(a);
+                           image.style.height = '32pt';
+                         image.style.width = '32pt';
+                     })
+                }*/
                 window.GlobalTabBar.setState({
                     object: this.state,
                     objects: [{

@@ -80,6 +80,21 @@ define([
                     }
                }
            })
+            document.addEventListener('hook_album', (e) => {
+               if (e.data instanceof Object) {
+                   let hook = document.querySelector('sp-hook[data-hook-id="searchview"]');
+                   
+                   let search = hook.querySelector('sp-spotifysearchview[uri="' + e.data.uri + '"]');
+                    if (!search) {
+                        search = document.createElement('sp-spotifysearchview');
+                        hook.appendChild(search);
+                        search.setAttribute('uri', e.data.uri);
+                        $(search).show();
+                    } else {
+                        $(search).show();
+                    }
+               }
+           })
             document.addEventListener('viewstackloaded', () => {
                 GlobalViewStack.registeredViews.push({
                     tag: 'sp-startview',

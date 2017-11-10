@@ -38,7 +38,7 @@ return class SPTrackTableDesigner extends SPTableDesigner {
         let field = this.table.fields[columnIndex];
         val = track[field];
         if (field === 'p' || field === 'position') {
-            td.width = '1pt';
+            td.width = '31pt';
             if (parseInt(val) < 10) {
                 val = '0' + val;
             }

@@ -37,7 +37,7 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
               let result = await store.request('GET', newVal);
                 
               this.setState(result);    
-              this.albumList.setAttribute('uri', newVal + ':playlist');
+              this.overview.albumList.setAttribute('uri', newVal + ':playlist');
             }
         }
         setState(state) {

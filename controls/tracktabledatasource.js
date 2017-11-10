@@ -10,7 +10,8 @@ define(['controls/tabledatasource', 'plugins/spotify/store'], function (SPTableD
             }
             this.objects = [];
             this.offset = 0;
-            this.fields = fields
+            this.fields = fields;
+            this.loaded = false;
         }
         async refresh() {
             this.rows = [];
@@ -23,6 +24,7 @@ define(['controls/tabledatasource', 'plugins/spotify/store'], function (SPTableD
             }
             if (this.onchange instanceof Function) {
                 this.onchange.call(this);
+                this.loaded = true;
             }
         }
         async fetchNext() {

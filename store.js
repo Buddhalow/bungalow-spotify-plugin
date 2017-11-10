@@ -139,7 +139,14 @@ define(['events'], function(EventEmitter) {
                                 'Content-Type': 'application/json'
                             },
                             method: 'GET',
-                        }).then((e) => e.json());
+                        }).then((e) => {
+                            if (e.status < 200 || e.status > 299) {
+                                alert(e.status);
+                            }
+                            return e.json()
+                            
+                        
+                        });
                     } else {
                         result = await fetch(url, {
                             credentials: 'include',
@@ -149,7 +156,13 @@ define(['events'], function(EventEmitter) {
                             },
                             method: method,
                             body: JSON.stringify(payload)
-                        }).then((e) => e.json());
+                        }).then((e) => {
+                            if (e.status < 200 || e.status > 299) {
+                                alert(e.status);
+                            }
+                            return e.json()
+                            
+                        });
                     }
                     this.setState(uri, result);
     
@@ -165,7 +178,7 @@ define(['events'], function(EventEmitter) {
     
                 return result;
             } catch (e) {
-                alert("An error occured");
+                alert("An error occured " + e);
             }
         }
     

@@ -43,7 +43,7 @@ return class SPTrackTableDesigner extends SPTableDesigner {
         let field = this.table.fields[columnIndex];
         val = track[field];
         if (field === 'p' || field === 'position') {
-            td.width = '1pt';
+            td.width = '51pt';
             if (parseInt(val) < 10) {
                 val = '0' + val;
             }
@@ -52,8 +52,9 @@ return class SPTrackTableDesigner extends SPTableDesigner {
         } else if (field === 'duration') {
             td.innerHTML = '<span style="opacity: 0.5">' + (val + '') .toHHMMSS() + '</span>';
             td.querySelector('span').style.pointerEvents = 'none';
-            td.width = '10pt';
+            td.width = '70pt';
         } else if (field === 'popularity') {
+            td.width = "88pt";
             td.innerHTML = '<sp-popularity value="' + (track.popularity || 0) + '"></sp-popularitybar>';
             td.querySelector('sp-popularity').style.pointerEvents = 'none';
         } else if (field === 'discovered') {
@@ -84,6 +85,9 @@ return class SPTrackTableDesigner extends SPTableDesigner {
             td.querySelector('span').style.pointerEvents = 'none';
             
         } else if (typeof(val) === 'string') {
+            if (field === 'name') {
+                td.width = '100pt';
+            }
           td.innerHTML = '<span>' + val + '</span>';
             td.querySelector('span').style.pointerEvents = 'none';
         } else if (val instanceof Array) {

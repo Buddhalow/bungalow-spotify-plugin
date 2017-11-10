@@ -15,7 +15,7 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
             this.overviewTab.setAttribute('data-tab-id', 'overview');
             this.appendChild(this.overviewTab);
             this.overviewTab.topTracksDivider = document.createElement('sp-divider');
-            this.overviewTab.topTracksDivider.innerHTML = _('Top Tracks');
+            this.overviewTab.topTracksDivider.innerHTML = _e('Top Tracks');
         
             this.overviewTab.appendChild(this.overviewTab.topTracksDivider);
             this.overviewTab.toplist = document.createElement('sp-playlist');
@@ -36,7 +36,7 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
             this.overviewTab.appendChild(singlesDivider);
             
             let releaseList = document.createElement('sp-playlistcontext');
-            releaseList.setAttribute('fields', 'p,name,duration,artists');
+            releaseList.setAttribute('fields', 'p,name,duration,popularity,artists');
             releaseList.setAttribute('data-context-artist-uri', uri);
             
             
@@ -99,7 +99,7 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
             if (!newVal) return;
             if (attrName == 'uri') {
                 this.overviewTab.toplist.setAttribute('data-context-artist-uri', newVal);
-                this.overviewTab.toplist.setAttribute('fields', 'p,name,duration,artists');
+                this.overviewTab.toplist.setAttribute('fields', 'p,name,popularity,duration,artists');
                 if (newVal in store.state) {
                     this.setState(store.state[newVal]);
                     return;
@@ -126,10 +126,8 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
                 this.overviewTab.toplist.setAttribute('uri', newVal + ':top:5');
                 this.state = result;
                 
-                this.createReleaseSection(_('Albums'), newVal, 'album');
                 this.createReleaseSection(_('Singles'), newVal, 'single');
-                this.createReleaseSection(_('Appears on'), newVal, 'appears_on');
-                this.createReleaseSection(_('Compilations'), newVal, 'compilation');
+                this.createReleaseSection(_('Albums'), newVal, 'album');
                 
                 this.setState(this.state);
                 this.aboutTab.aboutElement.setAttribute('uri', newVal + ':about');

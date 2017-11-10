@@ -1,10 +1,12 @@
 define([
     'controls/table',
+    'plugins/spotify/store',
     'plugins/spotify/controls/tracktabledesigner',
     'plugins/spotify/controls/tracktabledatasource',
     'plugins/spotify/controls/tracktabledelegate'
     ], function (
         SPTableElement, 
+        store,
         SPTrackTableDesigner,
         SPTrackTableDataSource,
         SPTrackTableDelegate
@@ -19,7 +21,11 @@ define([
             this.delegate = new SPTrackTableDelegate(this);
             
             
-
+            store.on('change', () => {
+                $('tr').removeClass('sp-current-track');
+                if ('player' in store.state)
+                $('tr[data-uri="' + store.state.player.item.uri + '"').addClass('sp-current-track');
+            })
         }
         get maxRows() {
             return this.getAttribute('data-max-rows') || 50;
@@ -33,6 +39,7 @@ define([
                 this.designer = new SPTrackTableDesigner();
                 this.delegate = new SPTrackTableDelegate();
                 this.dataSource = new SPTrackTableDataSource(newVal, this.query, this.fields, this.maxRows);
+                
                 this.fetchNext();
             }
         }

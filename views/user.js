@@ -13,6 +13,13 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
             this.state = {
                 
             };
+            this.managerDivider = document.createElement('sp-divider');
+            this.managerDivider.innerHTML = _('Manages');
+            this.managerDivider.style.display = 'none';
+            this.manager = document.createElement('sp-manager');
+            this.manager.style.display = 'none';
+            this.appendChild(this.managerDivider);
+            this.appendChild(this.manager);
             if (!this.albumsDivider) {
             this.albumsDivider = document.createElement('sp-divider');
             this.albumsDivider.innerHTML = _('Public playlists');
@@ -24,6 +31,7 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
                 this.albumList.setAttribute('fields', 'name,duration,artists,added_at,added_by');
                 this.appendChild(this.albumList);
             }
+            
         
         }
         acceptsUri(uri) {
@@ -50,6 +58,22 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
                 
               this.albumList.setAttribute('uri', newVal + ':playlist');
               this.setState(this.state); 
+              if (this.state.manages.length > 0) {
+                this.manager.style.display = 'block';
+                this.managerDivider.style.display = 'block';
+                 this.state.manages.map((obj) => {
+                     let a = document.createElement('sp-link');
+                     a.style.display = 'inline-block';
+                     a.style.textAlign = 'center';
+                     a.setAttribute('uri', obj.uri);
+                     let image = document.createElement('sp-image');
+                    image.setState(obj);
+                    image.style.display = 'inline-block';
+                    a.appendChild(image);
+                    a.innerHTML += '<br><span>' + obj.name + '</span>';
+                     this.manager.appendChild(a);
+                 })
+              }
               this.activate();   
             }
         }
