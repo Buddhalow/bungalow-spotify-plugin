@@ -27,8 +27,8 @@ define(['plugins/spotify/controls/resource', 'plugins/spotify/controls/playlist'
 
                 elm.setAttribute('data-context-artist-uri', this.getAttribute('data-context-artist-uri'));
             }
-            store.state[playlist.uri] = playlist;
-            store.state[playlist.uri + ':track'] = playlist.tracks;
+            store.state['bungalow:' + playlist.uri.substr('spotify:'.length)] = playlist;
+            store.state['bungalow:' + playlist.uri.substr('spotify:'.length) + ':track'] = playlist.tracks ;
             elm.setAttribute('uri', playlist.uri);
             return elm;
         }
@@ -40,6 +40,11 @@ define(['plugins/spotify/controls/resource', 'plugins/spotify/controls/playlist'
                             resolve();
                         }, 500)
                     });
+                    debugger;
+                    store.state['bungalow:' + item.uri.substr('spotify:') + ':track' + '?' + serializeObject({limit: this.limit, offset: this.offset})] = item.tracks;
+                 
+                    store.state['bungalow:' + item.uri.substr('spotify:') + '?'] = item;
+         
                     var a = document.createElement('sp-playlist');
                     if (this.hasAttribute('data-max-rows')) {
                         a.setAttribute('data-max-rows', this.getAttribute('data-max-rows'));
@@ -51,11 +56,8 @@ define(['plugins/spotify/controls/resource', 'plugins/spotify/controls/playlist'
                         a.setAttribute('fields', this.getAttribute('fields'));
                    }
                     let fields = a.fields;
-
                     a.setState(item);
-                    store.state[item.uri + ':track'] = item.tracks;
-                    store.state[item.uri] = item;
-         
+                
                     return a;
                 });
                 albums.forEach(async (_album) => {

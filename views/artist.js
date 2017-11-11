@@ -38,7 +38,7 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
             let releaseList = document.createElement('sp-playlistcontext');
             releaseList.setAttribute('fields', 'p,name,duration,popularity,artists');
             releaseList.setAttribute('data-context-artist-uri', uri);
-            
+            releaseList.setAttribute('data-max-rows', '5');
             
             this.overviewTab.appendChild(releaseList);
             await releaseList.setAttribute('uri', uri + ':' + release_type);

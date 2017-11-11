@@ -116,9 +116,11 @@ define(['events'], function(EventEmitter) {
         }
         async request(method, uri, params, payload, cache=true) {
             if (!uri) return;
-            let strongUri = (uri + '?' + (!!params ? serializeObject(params) : ''));
-            if (strongUri in this.state && method == "GET" && cache)
+            let strongUri = (uri + '?' + (params instanceof Object ? serializeObject(params) : ''));
+            if (strongUri in this.state && method == "GET" && cache) {
+                debugger;   
                 return this.state[strongUri];
+            }
             try {
                 let esc = encodeURIComponent
                 let query = params ?  Object.keys(params)
@@ -163,6 +165,26 @@ define(['events'], function(EventEmitter) {
                             return e.json()
                             
                         });
+                    }
+                    
+                    if ('objects' in result) {
+                        for (let obj of result.objects) {
+                            let bungalowUri = obj.uri;
+                            this.state[bungalowUri] = obj;
+                            if (obj.type == 'album') {
+                                
+                                if ('tracks' in obj) {
+                                    let trackset = {
+                                        objects: []
+                                    };
+                                    for (let track of obj.tracks.objects) {
+                                        this.state[track.uri] = track;
+                                        trackset.objects.push(track);
+                                    }
+                                    this.state[obj.uri + ':track?offset=0&limit=0'] = trackset;
+                                }
+                            }  
+                        }
                     }
                     this.setState(uri, result);
     
