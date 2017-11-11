@@ -20,7 +20,6 @@ define(['plugins/spotify/controls/resource', 'plugins/spotify/controls/playlist'
             let elm = document.createElement('sp-playlist');
             if (this.hasAttribute('fields')) {
                 elm.setAttribute('fields', this.getAttribute('fields'));
-                debugger;
                 
             }
             if (this.hasAttribute('data-context-artist-uri')) {
@@ -40,7 +39,6 @@ define(['plugins/spotify/controls/resource', 'plugins/spotify/controls/playlist'
                             resolve();
                         }, 500)
                     });
-                    debugger;
                     store.state['bungalow:' + item.uri.substr('spotify:') + ':track' + '?' + serializeObject({limit: this.limit, offset: this.offset})] = item.tracks;
                  
                     store.state['bungalow:' + item.uri.substr('spotify:') + '?'] = item;
