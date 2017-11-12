@@ -12,10 +12,13 @@ define([
     'plugins/spotify/views/label',
     'plugins/spotify/views/user',
     'plugins/spotify/views/country',
-    'plugins/spotify/views/genre',
+    'plugins/spotify/views/category',
     'plugins/spotify/views/curator',
     'plugins/spotify/views/audiobook',
     'plugins/spotify/views/search',
+    'plugins/spotify/views/start',
+    'plugins/spotify/controls/flow',
+    'plugins/spotify/controls/item',
     'controls/menudatasource'
     ], function (
         store,
@@ -31,10 +34,13 @@ define([
         SPLabelViewElement,
         SPUserViewElement,
         SPCountryViewElement,
-        SPGenreViewElement,
+        SPCategoryViewElement,
         SPCuratorViewElement,   
         SPAudioBookViewElement,
         SPSpotifySearchViewElement,
+        SPSpotifyStartViewElement,
+        SPFlowElement,
+        SPItemElement,
         SPMenuDataSource
         ) {
             document.registerElement('sp-playlist', SPPlaylistElement);
@@ -42,6 +48,10 @@ define([
             document.registerElement('sp-trackcontext', SPTrackContextElement);
             document.registerElement('sp-trackcontrols', SPTrackControlsElement);
             document.registerElement('sp-spotifysearchview', SPSpotifySearchViewElement);
+            document.registerElement('sp-spotifystartview', SPSpotifyStartViewElement);
+            document.registerElement('sp-flow', SPFlowElement);
+            document.registerElement('sp-item', SPItemElement);
+            document.registerElement('sp-categoryview', SPCategoryViewElement);
             document.addEventListener('hook_footer', (e) => {
                 document.querySelector('sp-hook[data-hook-id="footer"]').appendChild(document.createElement('sp-trackcontrols'));
             })
@@ -65,6 +75,12 @@ define([
                     ]
                 );
            });
+           document.addEventListener('hook_startview', (e) => {
+               let hook = document.querySelector('sp-hook[data-hook-id="startview"]');
+               let view = document.createElement('sp-spotifystartview');
+               hook.appendChild(view);
+               
+           })
            document.addEventListener('hook_searchview', (e) => {
                if (e.data instanceof Object) {
                    let hook = document.querySelector('sp-hook[data-hook-id="searchview"]');
@@ -98,7 +114,7 @@ define([
             document.addEventListener('viewstackloaded', () => {
                 GlobalViewStack.registeredViews.push({
                     tag: 'sp-startview',
-                    regex: /^bungalow:internal:start$/g
+                    regex: /^bungalow:(start|internal:start)$/g
                 });
                 GlobalViewStack.registeredViews.push({
                     tag: 'sp-searchview',
@@ -141,8 +157,8 @@ define([
                     regex: /^bungalow:country:([0-9a-zA-Z]+)$/g
                 });
                  GlobalViewStack.registeredViews.push({
-                    tag: 'sp-genreview',
-                    regex: /^bungalow:genre:([0-9a-zA-Z]+)$/g
+                    tag: 'sp-categoryview',
+                    regex: /^bungalow:category:([0-9a-zA-Z]+)$/g
                 });
                  GlobalViewStack.registeredViews.push({
                     tag: 'sp-curatorview',

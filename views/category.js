@@ -1,5 +1,5 @@
 define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, store) {
-	   class SPGenreViewElement extends SPViewElement {
+	   class SPCategoryViewElement extends SPViewElement {
         async createdCallback() {
             super.createdCallback();
               
@@ -25,7 +25,7 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
         
         }
         acceptsUri(uri) {
-            return new RegExp(/^bungalow:genre:(.*)$/g).test(uri);
+            return new RegExp(/^bungalow:category:(.*)$/g).test(uri);
         }
         navigate(uri) {
                 
@@ -45,6 +45,5 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
         }
     }
 
-    document.registerElement('sp-genreview', SPGenreViewElement);
-    return SPGenreViewElement;
+    return SPCategoryViewElement;
 })

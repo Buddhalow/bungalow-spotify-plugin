@@ -118,7 +118,7 @@ define(['events'], function(EventEmitter) {
             if (!uri) return;
             let strongUri = (uri + '?' + (params instanceof Object ? serializeObject(params) : ''));
             if (strongUri in this.state && method == "GET" && cache) {
-                debugger;   
+                   
                 return this.state[strongUri];
             }
             try {

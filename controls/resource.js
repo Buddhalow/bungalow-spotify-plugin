@@ -13,6 +13,9 @@ define(['plugins/spotify/controls/resource', 'plugins/spotify/store'], function 
                 this.setState(state);
             }
         }
+        createdCallback() {
+            this.attributeChangedCallback('uri', null, this.getAttribute('uri'))   
+        }
         vibrance() {
             let img = document.createElement('img');
             img.crossOrigin = '';

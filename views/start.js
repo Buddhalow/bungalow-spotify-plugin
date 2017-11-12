@@ -1,5 +1,5 @@
 define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, store) {
-    class SPStartViewElement extends SPViewElement {
+    class SPSpotifyStartViewElement extends SPViewElement {
         acceptsUri(uri) {
             return uri === 'bungalow:internal:start';
         }
@@ -8,11 +8,9 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
         }
         createdCallback() {
             this.classList.add('container');
-            this.innerHTML = '<h3>Start</h3>';
-            this.innerHTML += '<sp-divider>Featured</sp-divider>';
-            this.innerHTML += '<sp-carousel uri="bungalow:me:playlist"></sp-carousel>';
+            this.innerHTML += '<sp-divider>' + _e('Playlists') + '</sp-divider>';
+            this.innerHTML += '<sp-flow uri="spotify:category"></sp-flow>';
         }
     }
-    document.registerElement('sp-startview', SPStartViewElement);
-    return SPStartViewElement;
+    return SPSpotifyStartViewElement;
 });
