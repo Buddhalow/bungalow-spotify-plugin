@@ -26,7 +26,6 @@ define([], function () {
             this.resources = {};
             this.callbacks = {};
            
-            this.session = session;
         
             this.me = null;
             this.cache = {};
@@ -71,8 +70,12 @@ define([], function () {
            }
         }
         
+        get session() {
+            return JSON.parse(localStorage.getItem('spotify.session'));
+        }
+        
         get accessToken() {
-            return localStorage.getItem('spotify.accessToken');
+            return this.session.access_token;
         }
     
         getCurrentUser() {
@@ -160,12 +163,13 @@ define([], function () {
                     headers["Content-type"] = ("application/x-www-form-urlencoded");
                 }
                 var url = 'https://api.spotify.com/v1' + path;
-                fetch({
-                        method: method,
-                        url: url,
-                        headers: headers,
-                        qs: payload,
-                        body: JSON.stringify(postData)
+                fetch(url,{
+                    credentials: 'include',
+                    method: method,
+                  
+                    headers: headers,
+                    qs: payload,
+                    body: JSON.stringify(postData)
                 }).then(r => r.json()).then((data) => {
                        
                             function formatObject (obj, i) {
@@ -340,15 +344,17 @@ define([], function () {
                             console.log(data);
                             data.updated_at = new Date().getTime();
                             self.cache[cachePath] = data;
-                            fs.writeFileSync(cache_file, JSON.stringify(self.cache));
                             resolve(data);
                             
                         } catch (e) {
-                            
+                            console.log(e);
+                            debugger;
                             fail(e);
                         }
                     }
                 );
+            }, (e) => {
+                fail(e);
             });
         }
         
