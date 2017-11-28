@@ -5,9 +5,9 @@ define(['plugins/spotify/controls/resource', 'plugins/spotify/store'], function 
             return uri === 'bungalow:internal:start';
         }
         render(state) {
-           this.innerHTML = '<sp-link uri="' + state.uri + '"><sp-image src="' + state.images[0].uri + '"></sp-image></sp-link>';
-           this.innerHTML += '<br>';
-           this.innerHTML +='<sp-link uri="' + state.uri + '">' + state.name + '</sp-link>';
+           this.innerHTML = '<sp-link uri="' + state.uri + '"><sp-image src="' + state.images[0].url + '"><div class="title"><sp-link  uri="' + state.uri + '">' + state.name.substr(0, 30) + '</sp-link></div></sp-image></sp-link>';
+           
+        
         }
         setState(obj) {
             this.render(obj);

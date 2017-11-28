@@ -25,12 +25,16 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
             this.albumsDivider.innerHTML = _('Public playlists');
             this.appendChild(this.albumsDivider);
             }
-            if (!this.albumList) {
+       /*
+       if (!this.albumList) {
                 this.albumList = document.createElement('sp-playlistcontext');
                 this.albumList.setAttribute('data-max-rows', 10);
                 this.albumList.setAttribute('fields', 'name,duration,artists,added_at,added_by');
                 this.appendChild(this.albumList);
-            }
+            }*/
+            
+            this.releaseFlow = document.createElement('sp-flow');
+            this.appendChild(this.releaseFlow);
             
         
         }
@@ -53,11 +57,17 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
         async attributeChangedCallback(attrName, oldVal, newVal) {
             if (!newVal) return;
             if (attrName == 'uri') {
-                
-              this.state = await store.request('GET', newVal);
-                
-              this.albumList.setAttribute('uri', newVal + ':playlist');
-              this.setState(this.state); 
+                this.state = await store.request('GET', newVal);
+                this.releaseFlow.setAttribute('uri', newVal + ':playlist');
+                this.setState(this.state);
+            }
+        }
+        setState(state) {
+            this.state = state;
+            this.header.setState(state);
+            this.render();
+        }
+        render() {
               if (this.state.manages.length > 0) {
                 this.manager.style.display = 'block';
                 this.managerDivider.style.display = 'block';
@@ -75,10 +85,6 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
                  })
               }
               this.activate();   
-            }
-        }
-        setState(state) {
-            this.header.setState(state);
         }
     }
 

@@ -18,25 +18,28 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
             if (!newVal) return;
             if (attrName === 'uri') {
                 this.obj = await store.request('GET', newVal);
-                this.innerHTML = '';
-                this.albumView = document.createElement('sp-playlist');
-                this.albumView.setAttribute('fields', 'p,name,duration,popularity,artists');
-                this.appendChild(this.albumView);
-                this.albumView.showCopyrights = true;
-                this.albumView.view = this;
-                let album = await store.request('GET', newVal);
-                this.albumView.setAttribute('uri', newVal);
-                this.setState(album);
-                this.contentHook = document.createElement('sp-hook');
-                this.contentHook.setAttribute('data-hook-id', 'albumview');
-                this.appendChild(this.contentHook);
+                this.setState(this.obj);
             }
         }
         setState(state) {
             this.state = state;
             this.render();
         }
-        render() {
+        async render() {
+            this.innerHTML = '<div class="bg-mask"></div>';
+            this.header = document.createElement('sp-header');
+            this.header.setState(this.obj);
+            this.header.view = this;
+            this.appendChild(this.header);
+            this.albumView = document.createElement('sp-trackcontext');
+            this.albumView.setAttribute('fields', 'p,name,duration,popularity,artists');
+            this.appendChild(this.albumView);
+            this.albumView.showCopyrights = true;
+            this.albumView.view = this;
+            this.albumView.setAttribute('uri', this.getAttribute('uri') + ':track');
+            this.contentHook = document.createElement('sp-hook');
+            this.contentHook.setAttribute('data-hook-id', 'albumview');
+            this.appendChild(this.contentHook);
             GlobalTabBar.setState({
                 object: this.state,
                 objects: [

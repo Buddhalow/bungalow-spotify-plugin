@@ -1,4 +1,4 @@
-define(['events'], function(EventEmitter) {
+define(['events', 'plugins/spotify/service'], function(EventEmitter, SpotifyService) {
     
     /**
      * Data store for application
@@ -6,6 +6,7 @@ define(['events'], function(EventEmitter) {
     return new (class Store extends EventEmitter {
         constructor() {
             super();
+            this.spotify = new SpotifyService();
             this.services = {
             };
             this.state = {};
@@ -115,7 +116,12 @@ define(['events'], function(EventEmitter) {
             return result;
         }
         async request(method, uri, params, payload, cache=true) {
-            if (!uri) return;
+            if (uri.indexOf('bungalow:') == 0) {
+                uri ='spotify:' + url.split(':').slice(1).join('/') + '?' + query;
+                    
+            let result = await this.spotify.request(method, uri, params, payload);
+            return result;
+            /*if (!uri) return;
             let strongUri = (uri + '?' + (params instanceof Object ? serializeObject(params) : ''));
             if (strongUri in this.state && method == "GET" && cache) {
                    
@@ -201,7 +207,8 @@ define(['events'], function(EventEmitter) {
                 return result;
             } catch (e) {
                 alert("An error occured " + e);
-            }
+            }*/
+            
         }
     
         /**

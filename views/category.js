@@ -18,10 +18,12 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
             this.overview.albumsDivider.innerHTML = 'Public playlists';
             this.overview.appendChild(this.overview.albumsDivider);
             }
-            if (!this.overview.albumList) {
+            /*if (!this.overview.albumList) {
                 this.overview.albumList = document.createElement('sp-playlistcontext');
                 this.overview.appendChild(this.overview.albumList);
-            }
+            }*/
+            this.overview.releaseFlow = document.createElement('sp-flow');
+            this.overview.appendChild(this.overview.releaseFlow);
         
         }
         acceptsUri(uri) {
@@ -35,13 +37,17 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
             if (attrName == 'uri') {
                 
               let result = await store.request('GET', newVal);
-                
+              this.overview.releaseFlow.setAttribute('uri', newVal + ':playlist');  
               this.setState(result);    
-              this.overview.albumList.setAttribute('uri', newVal + ':playlist');
             }
         }
         setState(state) {
+            this.state = state;
             this.header.setState(state);
+            this.render();
+        }
+        render() {
+            
         }
     }
 

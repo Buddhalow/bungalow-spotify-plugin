@@ -7,10 +7,12 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
                 artist: null,
                 albums: []
             }
+            this.innerHTML = '<div class="bg-mask"></div>';
             this.header = document.createElement('sp-header');
             this.appendChild(this.header);
             
             this.classList.add('sp-view');
+            
             this.overviewTab = document.createElement('sp-tabcontent');
             this.overviewTab.setAttribute('data-tab-id', 'overview');
             this.appendChild(this.overviewTab);
@@ -30,18 +32,19 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
         async createReleaseSection(name, uri, release_type) {
             
             let singlesDivider = document.createElement('sp-divider');
-            singlesDivider.style.display = 'none';
             singlesDivider.setAttribute('data-uri', uri + ':' + release_type);
             singlesDivider.innerHTML = name;
+            singlesDivider.style.display = 'block';
             this.overviewTab.appendChild(singlesDivider);
-            
+          /*  
             let releaseList = document.createElement('sp-playlistcontext');
             releaseList.setAttribute('fields', 'p,name,duration,popularity,artists');
             releaseList.setAttribute('data-context-artist-uri', uri);
             releaseList.setAttribute('data-max-rows', '5');
-            
-            this.overviewTab.appendChild(releaseList);
-            await releaseList.setAttribute('uri', uri + ':' + release_type);
+            */
+            let releaseFlow = document.createElement('sp-flow');
+            this.overviewTab.appendChild(releaseFlow);
+            releaseFlow.setAttribute('uri', uri + ':' + release_type);
             
         }
         acceptsUri(uri) {
