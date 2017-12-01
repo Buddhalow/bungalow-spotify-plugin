@@ -28,6 +28,11 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
             this.aboutTab.appendChild(this.aboutTab.aboutElement);
             this.aboutTab.setAttribute('data-tab-id', 'about');
             this.appendChild(this.aboutTab);
+            this.playlistsTab = document.createElement('sp-tabcontent');
+            this.playlistsTab.setAttribute('data-tab-id', 'playlists');
+            this.appendChild(this.playlistsTab);
+            this.playlistsTab.playlistsList = document.createElement('sp-playlistlist');
+            this.playlistsTab.appendChild(this.playlistsTab.playlistsList);
         }
         async createReleaseSection(name, uri, release_type) {
             
@@ -81,6 +86,10 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
                     {
                         id: 'about',
                         name: _('About')
+                    },
+                    {
+                        id: 'playlists',
+                        name: _e('Playlists')
                     }
                 ]
             })
@@ -94,6 +103,10 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
                     {
                         id: 'about',
                         name: _('About')
+                    },
+                    {
+                        id: 'playlists',
+                        name: _e('Playlists')
                     }
                 ]
             });
@@ -134,6 +147,9 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
                 
                 this.setState(this.state);
                 this.aboutTab.aboutElement.setAttribute('uri', newVal + ':about');
+                
+                
+                this.playlistsTab.playlistsList.setAttribute('uri', newVal);
                 this.activate();
             }
         }

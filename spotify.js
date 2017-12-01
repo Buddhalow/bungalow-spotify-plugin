@@ -1,8 +1,10 @@
 define([
     'plugins/spotify/store',
+    'plugins/spotify/components/playlistlist',
     'plugins/spotify/controls/playlistcontext',
     'plugins/spotify/controls/header',
     'plugins/spotify/controls/trackcontext',
+    'plugins/spotify/controls/resourcecontext',
     'plugins/spotify/controls/playlist',
     'plugins/spotify/controls/trackcontrols',
     'plugins/spotify/views/playqueue', 
@@ -22,9 +24,11 @@ define([
     'controls/menudatasource'
     ], function (
         store,
+        SPPlaylistListElement,
         SPPlaylistContextElement,
         SPHeaderElement,
         SPTrackContextElement,
+        SPResourceContextElement,
         SPPlaylistElement,
         SPTrackControlsElement,
         SPPlaylistViewElement,
@@ -44,7 +48,9 @@ define([
         SPMenuDataSource
         ) {
             document.registerElement('sp-playlist', SPPlaylistElement);
+            document.registerElement('sp-playlistlist', SPPlaylistListElement);
             document.registerElement('sp-playlistcontext', SPPlaylistContextElement);
+            document.registerElement('sp-resourcecontext', SPResourceContextElement);
             document.registerElement('sp-trackcontext', SPTrackContextElement);
             document.registerElement('sp-trackcontrols', SPTrackControlsElement);
             document.registerElement('sp-spotifysearchview', SPSpotifySearchViewElement);
