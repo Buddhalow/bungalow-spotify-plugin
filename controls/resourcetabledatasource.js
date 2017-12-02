@@ -9,7 +9,7 @@ define(['controls/tabledatasource', 'plugins/spotify/store'], function (SPTableD
                 this.limitRows = true;
             }
             this.objects = [];
-            this.offset = 0;
+            this.offset = -limit;
             this.fields = fields;
             this.loaded = false;
         }
@@ -28,10 +28,16 @@ define(['controls/tabledatasource', 'plugins/spotify/store'], function (SPTableD
             }
         }
         async fetchNext() {
-
+            this.offset += this.limit;
+            if (this.offset > 0) {
+                debugger;
+            }
             let result = await store.request('GET', this.uri, {q: this.q, limit: this.limit, offset: this.offset});
             if (!!result && 'objects' in result && result.objects instanceof Array)
             this.objects = result.objects;
+            if (this.uri != null) {
+            
+            }
             if (this.onchange instanceof Function) {
                 this.onchange.call(this);
             }

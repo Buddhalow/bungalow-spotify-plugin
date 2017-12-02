@@ -1,7 +1,8 @@
 define(['controls/tabledelegate'], function (SPTableDelegate) {
     return class SPResourceTableDelegate extends SPTableDelegate {
-        onItemDblClick(tr) {
-            let id = tr.getAttribute('data-uri');
+        onRowDoubleClick(tr) {
+            let uri = tr.getAttribute('data-uri');
+            GlobalViewStack.navigate(uri);
         }
     }
 })

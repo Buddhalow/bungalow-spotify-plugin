@@ -149,6 +149,9 @@ define(['events', 'plugins/spotify/service'], function(EventEmitter, SpotifyServ
                             return e.json()
                             
                         
+                        }, (error) => {
+                            debugger;
+                            alert(error);
                         });
                     } else {
                         result = await fetch(url, {

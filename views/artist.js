@@ -33,6 +33,9 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
             this.appendChild(this.playlistsTab);
             this.playlistsTab.playlistsList = document.createElement('sp-playlistlist');
             this.playlistsTab.appendChild(this.playlistsTab.playlistsList);
+            
+            this.playlistsTab.playlistsList.view = this;
+            this.playlistsTab.playlistsList.header = this.header;
         }
         async createReleaseSection(name, uri, release_type) {
             
@@ -78,7 +81,7 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
                     {
                         id: 'overview',
                         name: _('Overview')
-                    },
+                    }/*,
                     {
                         id: 'related_artist',
                         name: _('Related artists')
@@ -86,7 +89,7 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
                     {
                         id: 'about',
                         name: _('About')
-                    },
+                    }*/,
                     {
                         id: 'playlists',
                         name: _e('Playlists')
@@ -99,11 +102,11 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
                     {
                         id: 'overview',
                         name: _('Overview')
-                    },
+                    }/*,
                     {
                         id: 'about',
                         name: _('About')
-                    },
+                    }*/,
                     {
                         id: 'playlists',
                         name: _e('Playlists')
@@ -150,6 +153,7 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
                 
                 
                 this.playlistsTab.playlistsList.setAttribute('uri', newVal);
+                this.playlistsTab.header = this.header;
                 this.activate();
             }
         }

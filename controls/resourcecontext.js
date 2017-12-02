@@ -36,11 +36,14 @@ define([
                     this.fields = newVal.split(',');
             }
             if (attrName == 'uri') {
+                if (newVal == null) return;
                 this.designer = new SPResourceTableDesigner();
+            
                 this.delegate = new SPResourceTableDelegate();
-                this.dataSource = new SPResourceTableDataSource(newVal, this.query, this.fields, this.maxRows);
-               
+                this.dataSource = new SPResourceTableDataSource(newVal, this.query, this.fields, 10);
+                    
                 this.fetchNext();
+             
             }
         }
         render() {
