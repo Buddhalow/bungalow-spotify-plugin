@@ -13,7 +13,7 @@ define(['controls/view', 'plugins/spotify/controls/trackcontext', 'plugins/spoti
             if (!this.trackcontext) {
                 this.trackcontext = document.createElement('sp-trackcontext');
                 this.appendChild(this.trackcontext);
-                this.trackcontext.setAttribute('fields', 'discovered,name,artists,album,user,added_at');
+                this.trackcontext.setAttribute('fields', 'name,artists,album,user,added_at');
                 this.trackcontext.setAttribute('headers', 'true');
                 this.trackcontext.header = (this.header);
                 this.trackcontext.view = (this);

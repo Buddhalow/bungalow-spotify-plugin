@@ -46,10 +46,6 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
                     {
                         id: 'overview',
                         name: _('Overview')
-                    },
-                    {
-                        id: 'playlists',
-                        name: _('Playlists')
                     }
                 ]
             })
