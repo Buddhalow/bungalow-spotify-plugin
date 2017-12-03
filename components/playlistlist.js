@@ -2,7 +2,6 @@ define(['controls/view', 'plugins/spotify/store', 'plugins/spotify/controls/reso
     return class SPPlaylistListViewElement extends SPViewElement {
         async createdCallback() {
             super.createdCallback();
-            this.innerHTML = '<sp-divider>' + 'Playlists featuring this artist' + ' (Powered by Google Custom Search API)</sp-divider>';
             this.playlistsList = document.createElement('sp-resourcecontext');
             this.playlistsList.setAttribute('headers', true);
             this.appendChild(this.playlistsList);

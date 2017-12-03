@@ -14,7 +14,7 @@ define([
     return class SPResourceContextElement extends SPTableElement {
         createdCallback() {
             super.createdCallback();
-            this.fields = ['name', 'user'];
+            this.fields = ['icon', 'name', 'user'];
             this.attributeChangedCallback('uri', null, this.getAttribute('uri'));
             this.attributeChangedCallback('fields', null, this.getAttribute('fields'));
             this.created2 = true;

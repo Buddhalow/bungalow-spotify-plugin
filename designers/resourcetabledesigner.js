@@ -23,7 +23,12 @@ return class SPResourceTableDesigner extends SPTableDesigner {
         let val = '';
         let field = this.table.fields[columnIndex];
         val = track[field];
-        if (field === 'p' || field === 'position') {
+        if (field === 'icon') {
+            td.width = '10pt';
+            td.innerHTML = '<i class="fa fa-list"></i>';
+          
+        
+        } else if (field === 'p' || field === 'position') {
             td.width = '31pt';
             if (parseInt(val) < 10) {
                 val = '0' + val;

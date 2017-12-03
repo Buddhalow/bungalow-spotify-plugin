@@ -42,6 +42,9 @@ return class SPTrackTableDesigner extends SPTableDesigner {
         let val = '';
         let field = this.table.fields[columnIndex];
         val = track[field];
+        if (field === 'icon') {
+            td.innerHTML = '<i class="fa fa-list></i>';
+        }
         if (field === 'p' || field === 'position') {
             td.width = '51pt';
             if (parseInt(val) < 10) {

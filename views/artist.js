@@ -92,7 +92,7 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
                     }*/,
                     {
                         id: 'playlists',
-                        name: _e('Playlists')
+                        name: _e('Playlists (Powered by Google)')
                     }
                 ]
             })
@@ -109,7 +109,7 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
                     }*/,
                     {
                         id: 'playlists',
-                        name: _e('Playlists')
+                        name: _e('Playlists (Powered by Google)')
                     }
                 ]
             });
