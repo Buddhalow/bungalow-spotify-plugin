@@ -1,9 +1,10 @@
-define(['controls/view', 'plugins/spotify/store', 'plugins/spotify/controls/resourcetabledatasource', 'plugins/spotify/designers/resourcetabledesigner'], function (SPViewElement, store, SPResourceTableDataSource, SPResourceTableDesigner) {
+define(['controls/view', 'plugins/spotify/store', 'plugins/spotify/delegates/resourcetabledelegate', 'plugins/spotify/controls/resourcetabledatasource', 'plugins/spotify/designers/resourcetabledesigner'], function (SPViewElement, store, SPResourceTableDelegate, SPResourceTableDataSource, SPResourceTableDesigner) {
     return class SPPlaylistListViewElement extends SPViewElement {
         async createdCallback() {
             super.createdCallback();
             this.playlistsList = document.createElement('sp-resourcecontext');
-            this.playlistsList.setAttribute('headers', true);
+            this.playlistsList.setAttribute('showcolumnheaders', true);
+            this.playlistsList.delegate = new SPResourceTableDelegate();
             this.appendChild(this.playlistsList);
         }
         attachedCallback() {

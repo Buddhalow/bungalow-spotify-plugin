@@ -1,40 +1,28 @@
 define(
     [
-        'controls/tabledatasource', 
         'controls/tabledesigner',
-        'controls/view', 'plugins/spotify/store'
+        'plugins/parse/datasources/parsedatasource',
+        'controls/view'
     ], function (
-        SPTableDataSource, 
         SPTableDesigner, 
-        SPViewElement,
-        store
+        SPViewElement
     ) {
     return class SPModelViewElement extends SPViewElement {
-            createdCallback() {
-                this.content = document.createElement('div');
-                this.classList.add('sp-view');
+            get dataSource() {
+                return this.listView.dataSource;
             }
-            activate() {
-                super.activate();
-                GlobalTabBar.setState({
-                    objects: [{
-                        id: 'overview',
-                        name: _e(this.label)
-                    }]
-                }); 
-                this.created = true;
+            set dataSource(value) {
+                this.listView.dataSource = value;
+                this.form.dataSource = value;
             }
-            get type() {
-                return this.getAttribute('type');
+            get dataSource() {
+                return this.listView.dataSource;
             }
-            set type(value) {
-                this.setAttribute('type', value);
+            set designer(value) {
+                this.listView.designer = value;
             }
-            get label() {
-                return this.getAttribute('label');
-            }
-            set label(value) {
-                this.setAttribute('label', value);
+            get designer() {
+                return this.listView.designer;
             }
             get model() {
                 return this.getAttribute('model');
@@ -42,27 +30,81 @@ define(
             set model(value) {
                 this.setAttribute('model', value);
             }
-            get description() {
-                return this.getAttribute('description');
+            createdCallback() {
+                super.createdCallback();
+                this.content = document.createElement('div');
+                this.classList.add('sp-view');
+                this.section = document.createElement('sp-tabcontent');
+                this.editSection = document.createElement('sp-tabcontent');
+                this.section.setAttribute('data-tab-id', 'overview');
+                this.appendChild(this.section);
+                
+                
+                this.header = document.createElement('sp-header');
+                this.header.setAttribute('size', 128);
+                
+                this.listView =  document.createElement('sp-table');
+                this.section.appendChild(this.header);
+                if (this.content instanceof Node)
+                this.section.appendChild(this.content);
+                this.containerElement = document.createElement('div');
+                this.containerElement.classList.add('container');
+                this.section.appendChild(this.containerElement);
+                this.containerElement.appendChild(this.listView);
+                this.listView.header = this.header;
+                this.listView.view = this;
+                this.listView.emptyText = this.emptyText;
+                var self = this;
+                this.listView.delegate = {
+                    onRowDoubleClick(row, obj) {
+                        var dialog = document.createElement('sp-modal');
+                            dialog.label = _e('Edit') + ' ' + this.model;
+                            
+                        document.body.appendChild(dialog);
+                        dialog.navigate(row.uri);
+                        dialog.show();
+                    },
+                    onRowSingleClick() {
+                        
+                    }
+                };
+                this.containerElement = document.createElement('div');
+                this.containerElement.classList.add('container');
+                this.editSection.appendChild(this.containerElement);
+                this.form = document.createElement('sp-form');
+                this.form.label = _e('Edit') + ' ' + this.model;
+                this.containerElement.appendChild(this.form);
+                this.editSection.style.display = 'none';
+               
+                    
+                
             }
-            set description(value) {
-                this.setAttribute('description', value);
+            activate() {
+                super.activate();
+                try {
+                 GlobalTabBar.setState({
+                    objects: [{
+                        id: 'overview',
+                        name: _e(this.label)
+                    }],
+                    add: {
+                        uri: this.uri.split(':')[0] + ':' + this.uri.split(':')[1] + ':add'
+                    }
+                }); 
+                } catch (e) {
+                    
+                }
             }
             attributeChangedCallback(attrName, oldVal, newVal) {
                 if (attrName === 'uri') {
+                    
                     this.innerHTML = '';
-                    this.section = document.createElement('sp-tabconent');
-                    this.section.setAttribute('data-id', 'overview');
-                    this.appendChild(this.section);
-                    
-                    if (newVal === 'bungalow:' + this.model.toLowerCase()) {
-                    
-                        this.header = document.createElement('sp-header');
-                        this.header.setAttribute('size', 128);
+                    if (newVal === this.uri.split(':')[0] + this.uri.split(':')[1]) {
+    
                         this.header.setState({
                             type: this.type,
                             name: _e(this.label),
-                            uri: 'bungalow:' + this.model.toLowerCase(),
+                            uri: this.uri.split(':')[0] + ':' + this.uri.split(':')[1],
                             type: this.model,
                             description: this.description,
                             buttons: [{
@@ -71,56 +113,23 @@ define(
                                 onClick: (e) => {
                                     var dialog = document.createElement('sp-modal');
                                     dialog.label = _e('Add') + ' ' + this.model;
-                                    dialog.navigate('bungalow:' + self.model.toLocaleLowerCase() + ':add');
                                     document.body.appendChild(dialog);
-                                    dialog.show();
+                                      dialog.show();
+                                  dialog.navigate(this.uri.split(':')[0] + ':' + this.uri.split(':')[1] + ':add');
+                                  
                                 }
                             }]
                         });
-                        this.listView =  document.createElement('sp-table');
-                        this.section.appendChild(this.header);
-                        if (this.content instanceof Node)
-                        this.section.appendChild(this.content);
-                        this.containerElement = document.createElement('div');
-                        this.containerElement.classList.add('container');
-                        this.section.appendChild(this.containerElement);
-                        this.containerElement.appendChild(this.listView);
-                        this.listView.header = this.header;
-                        this.listView.view = this;
-                        this.listView.designer = this.tableDesigner;    
-                        this.listView.dataSource = this.tableDataSource;
-                        this.listView.negative = this.negative;
-                        this.listView.emptyText = this.emptyText;
-                        this.tableDataSource.fetchNext();
-                        var self = this;
-                        this.listView.delegate = {
-                            onRowDoubleClick(row, obj) {
-                                var dialog = document.createElement('sp-modal');
-                                    dialog.label = _e('Edit') + ' ' + this.model;
-                                dialog.navigate('bungalow:' + self.model.toLocaleLowerCase() + ':' + obj.id);
-                                document.body.appendChild(dialog);
-                                dialog.show();
-                            },
-                            onRowSingleClick() {
-                                
-                            }
-                        };
-                        this.created = true;
+                        this.listView.setAttribute('uri', newVal);
                     } else {
-                            
-                        this.containerElement = document.createElement('div');
-                        this.containerElement.classList.add('container');
-                        this.appendChild(this.containerElement);
-                        this.form = document.createElement('sp-form');
-                        this.form.dataSource = this.formDataSource;
-                        this.form.label = _e('Edit') + ' ' + this.model;
-                        this.containerElement.appendChild(this.form);
+                        this.section.style.display = 'none';
+                        this.editSection.style.display = 'block';
                         let uri = newVal.split(':');
                         let id = uri[2];
                         this.form.setAttribute('data-object-id', id);
                         
                     }
-                } 
+                }
             }
             refresh() {
                 let uri =this.getAttribute('uri');

@@ -113,7 +113,11 @@ return class SPTrackTableDesigner extends SPTableDesigner {
                 td.innerHTML = '&nbsp;';
             }
         } else {
-          td.innerHTML =track;
+            if (val instanceof Object) {
+                td.innerHTML = '<sp-link uri="' + val.uri + '">' + val.name + '</sp-link>';
+            } else {
+              td.innerHTML = val;
+            }
         }
         if (field === 'name') {
           td.width = '500pt';

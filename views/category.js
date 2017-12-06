@@ -35,7 +35,7 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
         async attributeChangedCallback(attrName, oldVal, newVal) {
             if (!newVal) return;
             if (attrName == 'uri') {
-                
+                newVal = 'spotify:' + newVal.split(':').splice(1).join(':');
               let result = await store.request('GET', newVal);
               this.overview.releaseFlow.setAttribute('uri', newVal + ':playlist');  
               this.setState(result);    
