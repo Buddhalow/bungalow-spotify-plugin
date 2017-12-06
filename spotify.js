@@ -18,8 +18,6 @@ define([
     'plugins/spotify/views/audiobook',
     'plugins/spotify/views/search',
     'plugins/spotify/views/start',
-    'plugins/spotify/controls/flow',
-    'plugins/spotify/controls/item',
     'controls/menudatasource'
     ], function (
         store,
@@ -41,8 +39,6 @@ define([
         SPAudioBookViewElement,
         SPSpotifySearchViewElement,
         SPSpotifyStartViewElement,
-        SPFlowElement,
-        SPItemElement,
         SPMenuDataSource
         ) {
             document.registerElement('sp-playlist', SPPlaylistElement);
@@ -53,8 +49,6 @@ define([
             document.registerElement('sp-trackcontrols', SPTrackControlsElement);
             document.registerElement('sp-spotifysearchview', SPSpotifySearchViewElement);
             document.registerElement('sp-spotifystartview', SPSpotifyStartViewElement);
-            document.registerElement('sp-flow', SPFlowElement);
-            document.registerElement('sp-item', SPItemElement);
             document.registerElement('sp-categoryview', SPCategoryViewElement);
             document.addEventListener('hook_footer', (e) => {
                 document.querySelector('sp-hook[data-hook-id="footer"]').appendChild(document.createElement('sp-trackcontrols'));

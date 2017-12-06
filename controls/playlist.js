@@ -1,4 +1,4 @@
-define(['controls/resource', 'plugins/spotify/controls/trackcontext', 'plugins/spotify/controls/list'], function (SPResourceElement, SPTrackContextElement, SPListElement) {
+define(['controls/resource'], function (SPResourceElement) {
 
     function swatchToColor(color) {
         return 'rgba(' + color.rgb[0] + ',' + color.rgb[1] + ',' + color.rgb[2] + ', 0.3)';
@@ -13,30 +13,76 @@ define(['controls/resource', 'plugins/spotify/controls/trackcontext', 'plugins/s
 
     }
 
-    return class SPPlaylistElement extends SPListElement {
-        setState(object) {
-            super.setState(object);
-            this.renderTable(object, this.getAttribute('data-context-artist-uri'));
+    return class SPPlaylistElement extends SPResourceElement {
+        
+        get columnheaders() {
+            if (!this.table)    
+                return this._columnheaders;
+            return this.table.columnheaders;
         }
-        renderTable(obj, dataContextUri) {
-            
-            this.table = document.createElement('sp-trackcontext');
-            this.table.addEventListener('rendered', () => {
-      
-                this.style.display = 'flex';
-               
-            })
-            if (this.hasAttribute('fields')) {
-                this.table.setAttribute('fields', this.getAttribute('fields'));
-            } else {
-                this.table.setAttribute('fields', 'name,artists,album,user,added_at');
+        set columnheaders(value) {
+            if (!this.table) {
+                this._columnheaders = value;
+                return; 
             }
-            if (dataContextUri != null)
-                this.table.setAttribute('data-context-artist-uri', dataContextUri);
-            this.table.setAttribute('uri', obj.uri + ':track');
-            this.querySelector('.contents').appendChild(this.table);
+            this.table.columnheaders = value;
+        }
+        render() {
+            if (!this.state || !this.state.object) {
+                this.innerHTML = '<sp-throbber></sp-throbber>';
+                return;
+            } 
+            let obj = this.state.object;
+            let strReleaseDate = '';
+            if (obj.release_date instanceof String) {
+                strReleaseDate = obj.release_date;
+                let releaseDate = moment(obj.release_date);
+                if (Math.abs(releaseDate.diff(moment(), 'days')) < 15) {
+                    strReleaseDate = releaseDate.fromNow();
+                }
+            }
+            let titleElement = document.createElement('sp-title');
+            titleElement.setState(obj);
+            let dataContextUri = this.getAttribute('data-context-artist-uri') || null;
+            let maxRows = this.getAttribute("data-max-rows");
+
+            this.innerHTML = '';
+            let fields =  this.getAttribute('fields');
+            this.object = obj;
+            let template = _.unescape(document.querySelector('#playlistTemplate').innerHTML);
+            this.innerHTML = _.template(template)({
+                title: titleElement.innerHTML,
+                strReleaseDate: strReleaseDate,
+                fields: fields,
+                maxRows: maxRows,
+                width: getComputedStyle(document.body).getPropertyValue('--image-size'),
+                height: getComputedStyle(document.body).getPropertyValue('--image-size'),
+                obj: obj,
+                dataContextUri: dataContextUri
+            });
+            if (this.view != null && localStorage.getItem('vibrance') == 'true') {
+                this.vibrance();
+            }
          
           
+        }
+        vibrance() {
+            let img = document.createElement('img');
+            img.crossOrigin = '';
+            img.src = this.object.images[0].url;
+            img.onload = () => {
+
+                var vibrant = new Vibrant(img);
+                let color = vibrant.swatches()['Vibrant'];
+                let light = vibrant.swatches()['LightVibrant'];
+                let muted = vibrant.swatches()['Muted'];
+
+                let bgColor = swatchToColor(color);
+
+                //    this.view.style.backgroundColor = bgColor;
+                let background = 'linear-gradient(-90deg, ' + swatchToColor(color) + ' 0%, ' + swatchToColor(muted) + ' 10%)';
+                this.view.style.background = background;
+            }
         }
     }
 

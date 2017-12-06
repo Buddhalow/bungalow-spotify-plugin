@@ -4,21 +4,19 @@ define(['controls/view', 'plugins/spotify/controls/trackcontext', 'plugins/spoti
             super.createdCallback();
             
             this.classList.add('sp-view');
-            if (!this.header) {
-                this.header = document.createElement('sp-header');
-                this.header.setAttribute('size', 128);
-                this.appendChild(this.header);
-            }
-            
-            if (!this.trackcontext) {
-                this.trackcontext = document.createElement('sp-trackcontext');
-                this.appendChild(this.trackcontext);
-                this.trackcontext.setAttribute('fields', 'name,artists,album,user,added_at');
-                this.trackcontext.setAttribute('headers', 'true');
-                this.trackcontext.header = (this.header);
-                this.trackcontext.view = (this);
+            this.header = document.createElement('sp-header');
+            this.header.setAttribute('size', 128);
+            this.appendChild(this.header);
+        
+    
+            this.trackcontext = document.createElement('sp-trackcontext');
+            this.appendChild(this.trackcontext);
+            this.trackcontext.setAttribute('fields', 'name,artists,album,user,added_at');
+            this.trackcontext.setAttribute('headers', 'true');
+            this.trackcontext.header = (this.header);
+            this.trackcontext.view = (this);
 
-            }
+        
 
             
 
@@ -44,16 +42,10 @@ define(['controls/view', 'plugins/spotify/controls/trackcontext', 'plugins/spoti
         async attributeChangedCallback(attrName, oldVal, newVal) {
             if (!newVal) return;
             if (attrName === 'uri') {
-
-                if (newVal in store.state) {
-                    this.setState(store.state[newVal]);
-                    return;
-                }
+                newVal = 'spotify:' + newVal.split(':').splice(1).join(':');
+                this.trackcontext.setAttribute('showcolumnheaders', 'true');
                 this.trackcontext.setAttribute('uri', newVal + ':track');
-                let result = await store.request('GET', newVal);
-                this.trackcontext.playlist = result;
-
-                this.state = result;
+                this.header.setAttribute('uri', newVal);
                /* this.state.features = result.tracks.objects.map((o) => {
                     return o.artists[0]
                 });

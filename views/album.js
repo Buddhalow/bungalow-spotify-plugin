@@ -35,8 +35,8 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
         async attributeChangedCallback(attrName, oldVal, newVal) {
             if (!newVal) return;
             if (attrName === 'uri') {
-                this.obj = await store.request('GET', newVal);
-                if (newVal.indexOf('null') != 0)
+                newVal = 'spotify:' + newVal.split(':').splice(1).join(':');
+                this.header.setAttribute('uri', newVal);
                 this.albumTab.albumView.setAttribute('uri', newVal + ':track');
                 super.afterLoad();
                 this.setState(this.obj);

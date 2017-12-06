@@ -113,7 +113,7 @@ return class SPTrackTableDesigner extends SPTableDesigner {
                 td.innerHTML = '&nbsp;';
             }
         } else {
-          td.innerHTML = '';
+          td.innerHTML =track;
         }
         if (field === 'name') {
           td.width = '500pt';

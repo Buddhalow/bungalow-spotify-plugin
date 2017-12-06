@@ -119,7 +119,7 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
             if (attrName == 'uri') {
                 newVal = 'spotify:' + newVal.split(':').splice(1).join(':');
                 this.overviewTab.toplist.setAttribute('data-context-artist-uri', newVal);
-                this.overviewTab.toplist.setAttribute('fields', 'p,name,popularity,duration,artists');
+                this.overviewTab.toplist.columnheaders=['p','name','popularity','duration','artists'];
                 if (newVal in store.state) {
                     this.setState(store.state[newVal]);
                     return;
