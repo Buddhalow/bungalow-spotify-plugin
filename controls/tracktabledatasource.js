@@ -11,6 +11,9 @@ define(['controls/tabledatasource', 'plugins/spotify/store'], function (SPTableD
             this.objects = [];
             this.offset = 0;
             this.fields = fields;
+            
+            var event = new CustomEvent('createdtabledatasource', {datasource: this});
+            document.dispatchEvent(event);
             this.loaded = false;
         }
         async refresh() {

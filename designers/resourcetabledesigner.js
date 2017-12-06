@@ -7,7 +7,7 @@ return class SPResourceTableDesigner extends SPTableDesigner {
   }
   getColumnElementAt(index) {
       let th = document.createElement('th');
-      th.innerHTML = this.table.dataSource.fields[index];
+      th.innerHTML = this.table.columnheaders[index];
       return th;
   }
 
@@ -21,7 +21,7 @@ return class SPResourceTableDesigner extends SPTableDesigner {
   getCellElement(columnIndex, track) {
       var td = document.createElement('td');
         let val = '';
-        let field = this.table.fields[columnIndex];
+        let field = this.table.columnheaders[columnIndex];
         val = track[field];
         if (field === 'icon') {
             td.width = '10pt';
@@ -91,8 +91,10 @@ return class SPResourceTableDesigner extends SPTableDesigner {
         if (field === 'name') {
           td.width = '500pt';
       }
-  
-      return td;
+     
+        var event = new CustomEvent('cellcreated', {field: field, track: track, cell: td});
+        document.dispatchEvent(event);
+        return td;
   }
 }
 });

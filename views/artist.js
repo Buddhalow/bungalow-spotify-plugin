@@ -117,6 +117,7 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
         async attributeChangedCallback(attrName, oldVal, newVal) {
             if (!newVal) return;
             if (attrName == 'uri') {
+                newVal = 'spotify:' + newVal.split(':').splice(1).join(':');
                 this.overviewTab.toplist.setAttribute('data-context-artist-uri', newVal);
                 this.overviewTab.toplist.setAttribute('fields', 'p,name,popularity,duration,artists');
                 if (newVal in store.state) {
@@ -148,13 +149,16 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
                 this.createReleaseSection(_('Singles'), newVal, 'single');
                 this.createReleaseSection(_('Albums'), newVal, 'album');
                 
-                this.setState(this.state);
+               
                 this.aboutTab.aboutElement.setAttribute('uri', newVal + ':about');
                 
                 
                 this.playlistsTab.playlistsList.setAttribute('uri', newVal);
                 this.playlistsTab.header = this.header;
+                 super.afterLoad();
+                this.setState(this.state);
                 this.activate();
+                
             }
         }
         setState(state) {

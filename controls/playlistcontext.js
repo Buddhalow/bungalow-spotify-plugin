@@ -26,9 +26,7 @@ define(['plugins/spotify/controls/resource', 'plugins/spotify/controls/playlist'
 
                 elm.setAttribute('data-context-artist-uri', this.getAttribute('data-context-artist-uri'));
             }
-            store.state['bungalow:' + playlist.uri.substr('spotify:'.length)] = playlist;
-            store.state['bungalow:' + playlist.uri.substr('spotify:'.length) + ':track'] = playlist.tracks ;
-            elm.setAttribute('uri', playlist.uri);
+            elm.setAttribute('uri', 'spotify:' + playlist.uri.split(':').splice(1).join(':'));
             return elm;
         }
         setState(obj) {
@@ -38,11 +36,7 @@ define(['plugins/spotify/controls/resource', 'plugins/spotify/controls/playlist'
                         setTimeout(() => {
                             resolve();
                         }, 500)
-                    });
-                    store.state['bungalow:' + item.uri.substr('spotify:') + ':track' + '?' + serializeObject({limit: this.limit, offset: this.offset})] = item.tracks;
-                 
-                    store.state['bungalow:' + item.uri.substr('spotify:') + '?'] = item;
-         
+                    })
                     var a = document.createElement('sp-playlist');
                     if (this.hasAttribute('data-max-rows')) {
                         a.setAttribute('data-max-rows', this.getAttribute('data-max-rows'));

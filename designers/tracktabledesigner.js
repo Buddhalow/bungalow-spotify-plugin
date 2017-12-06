@@ -1,4 +1,4 @@
-define(['controls/tabledesigner'], function (SPTableDesigner) {
+define(['controls/tabledesigner', 'plugins/spotify/store'], function (SPTableDesigner, store) {
 return class SPTrackTableDesigner extends SPTableDesigner {
   getHeaderRow() {
       let tr = document.createElement('tr');
@@ -7,47 +7,60 @@ return class SPTrackTableDesigner extends SPTableDesigner {
   }
   getColumnElementAt(index) {
       let th = document.createElement('th');
-      th.innerHTML = this.table.dataSource.fields[index];
+      th.innerHTML = this.table.columnheaders[index];
       return th;
   }
 
   getRowElement(row) {
       let tr = document.createElement('tr');
+      tr.created = true;
       tr.setAttribute('data-uri', row.uri);
+     
       tr.setAttribute('data-position', row.position);
-      if (isNaN(row.position)) throw "Error";
       
       tr.setAttribute('data-index', row.position);
       if (this.table.hasAttribute('data-context-artist-uri')) {
           let contextArtistUri = this.table.getAttribute('data-context-artist-uri').replace(
               'bungalow', 'spotify'    
           );
+          if (row.artists instanceof Array)
           if (row.artists.filter( a => a.uri == contextArtistUri).length < 1 && !!contextArtistUri) {
-              tr.style.opacity = 0.6;
+              tr.classList.add('sp-foreign');
+          } else {
+              tr.classList.remove('sp-foreign');
           }
       }
       if (store.state.player && store.state.player.item && store.state.player.item.uri == row.uri) {
           tr.classList.add('sp-current-track');
       }
+      
       return tr;
 
   }
   getCellElement(columnIndex, track) {
       var td = document.createElement('td');
+      td.created = true;
         let val = '';
-        let field = this.table.fields[columnIndex];
+        let field = this.table.columnheaders[columnIndex];
         val = track[field];
+        if (field === 'icon') {
+            td.innerHTML = '<i class="fa fa-list></i>';
+        }
         if (field === 'p' || field === 'position') {
-            td.width = '31pt';
+            td.width = '51pt';
             if (parseInt(val) < 10) {
                 val = '0' + val;
             }
             td.innerHTML = '<span style="text-align: right; opacity: 0.5">' + val + '</span>';
+            td.querySelector('span').style.pointerEvents = 'none';
         } else if (field === 'duration') {
             td.innerHTML = '<span style="opacity: 0.5">' + (val + '') .toHHMMSS() + '</span>';
-            td.width = '10pt';
+            td.querySelector('span').style.pointerEvents = 'none';
+            td.width = '70pt';
         } else if (field === 'popularity') {
-            td.innerHTML = '<sp-popularitybar value="' + (track.popularity || 0) + '"></sp-popularitybar>';
+            td.width = "88pt";
+            td.innerHTML = '<sp-popularity value="' + (track.popularity || 0) + '"></sp-popularitybar>';
+            td.querySelector('sp-popularity').style.pointerEvents = 'none';
         } else if (field === 'discovered') {
             let discoverLevel = 0;
             td.width = "10pt";
@@ -73,9 +86,14 @@ return class SPTrackTableDesigner extends SPTableDesigner {
                 td.querySelector('span').style.opacity = 0.5;
             }
       
+            td.querySelector('span').style.pointerEvents = 'none';
             
         } else if (typeof(val) === 'string') {
+            if (field === 'name') {
+                td.width = '100pt';
+            }
           td.innerHTML = '<span>' + val + '</span>';
+            td.querySelector('span').style.pointerEvents = 'none';
         } else if (val instanceof Array) {
            td.innerHTML = val.filter(o => {
               if (!this.table.hasAttribute('data-context-artist-uri'))
