@@ -112,63 +112,63 @@ define([
             document.addEventListener('viewstackloaded', () => {
                 GlobalViewStack.registeredViews.push({
                     tag: 'sp-startview',
-                    regex: /^bungalow:(start|internal:start)$/g
+                    regex: /^bungalow:(start|internal:start)$/
                 });
                 GlobalViewStack.registeredViews.push({
                     tag: 'sp-searchview',
-                    regex: /^bungalow:search:(.*)$/g
+                    regex: /^bungalow:search:(.*)$/
                 });
                 GlobalViewStack.registeredViews.push({
                     tag: 'sp-playlistview',
-                    regex: /^bungalow:user:([0-9a-zA-Z]+):playlist:([0-9a-zA-Z]+)$/g
+                    regex: /^bungalow:user:([0-9a-zA-Z]+):playlist:([0-9a-zA-Z]+)$/
                 });
                 GlobalViewStack.registeredViews.push({
                     tag: 'sp-playlistview',
-                    regex: /^bungalow:internal:library$/g
+                    regex: /^bungalow:internal:library$/
                 });
                 GlobalViewStack.registeredViews.push({
                     tag: 'sp-playlistview',
-                    regex: /^bungalow:(country|artist):([0-9a-zA-Z]+):top:([0-9a-zA-Z]+)$/g
+                    regex: /^bungalow:(country|artist):([0-9a-zA-Z]+):top:([0-9a-zA-Z]+)$/
                 });
                 GlobalViewStack.registeredViews.push({
                     tag: 'sp-playqueueview',
-                    regex: /^bungalow:internal:playqueue$/g
+                    regex: /^bungalow:internal:playqueue$/
                 });
                  GlobalViewStack.registeredViews.push({
                     tag: 'sp-artistview',
-                    regex: /^bungalow:artist:([0-9a-zA-Z]+)$/g
+                    regex: /^bungalow:artist:([0-9a-zA-Z]+)$/
                 });
                 GlobalViewStack.registeredViews.push({
                     tag: 'sp-albumview',
-                    regex: /^bungalow:album:([0-9a-zA-Z]+)$/g
+                    regex: /^bungalow:album:([0-9a-zA-Z]+)$/
                 });
                  GlobalViewStack.registeredViews.push({
                     tag: 'sp-labelview',
-                    regex: /^bungalow:label:([0-9a-zA-Z]+)$/g
+                    regex: /^bungalow:label:([0-9a-zA-Z]+)$/
                 });
                  GlobalViewStack.registeredViews.push({
                     tag: 'sp-userview',
-                    regex: /^bungalow:user:([0-9a-zA-Z]+)$/g
+                    regex: /^bungalow:user:([0-9a-zA-Z]+)$/
                 });
                 GlobalViewStack.registeredViews.push({
                     tag: 'sp-countryview',
-                    regex: /^bungalow:country:([0-9a-zA-Z]+)$/g
+                    regex: /^bungalow:country:([0-9a-zA-Z]+)$/
                 });
                  GlobalViewStack.registeredViews.push({
                     tag: 'sp-categoryview',
-                    regex: /^bungalow:category:([0-9a-zA-Z]+)$/g
+                    regex: /^bungalow:category:([0-9a-zA-Z]+)$/
                 });
                  GlobalViewStack.registeredViews.push({
                     tag: 'sp-curatorview',
-                    regex: /^bungalow:curator:([0-9a-zA-Z]+)$/g
+                    regex: /^bungalow:curator:([0-9a-zA-Z]+)$/
                 });
                 GlobalViewStack.registeredViews.push({
                     tag: 'sp-audiobookview',
-                    regex: /^bungalow:book:([0-9a-zA-Z]+):audio$/g
+                    regex: /^bungalow:book:([0-9a-zA-Z]+):audio$/
                 });
                 GlobalViewStack.registeredViews.push({
                     tag: 'sp-appviewstackview',
-                    regex: /^bungalow:app:(.*)$/g
+                    regex: /^bungalow:app:(.*)$/
                 });
             });
     }

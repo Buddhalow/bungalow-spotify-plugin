@@ -1,7 +1,7 @@
 define(['plugins/buddhalow/resolver'], function (SPResolver) {
     return class SPSpotifyResolver extends SPResolver {
         static acceptsUri(uri) {
-            return /^spotify:(.*)$/g.test(uri);
+            return /^spotify:(.*)$/.test(uri);
         }
         async request(method, uri, params, payload, cache=true) {
             if (!uri) return;
