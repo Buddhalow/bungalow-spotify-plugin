@@ -9,7 +9,7 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
             this.trackcontext = document.createElement('sp-trackcontext');
             this.appendChild(this.trackcontext);
                 
-            this.trackcontext.setAttribute('headers', 'true');
+            this.trackcontext.setAttribute('showcolumnheaders', 'true');
             this.trackcontext.header = (this.header);
             this.trackcontext.view = this.getParentElementByClass('sp-view');
             
