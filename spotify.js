@@ -1,6 +1,7 @@
 define([
     'plugins/spotify/store',
     'plugins/spotify/components/playlistlist',
+    'plugins/spotify/controls/searchheader',
     'plugins/spotify/controls/playlistcontext',
     'plugins/spotify/controls/trackcontext',
     'plugins/spotify/controls/resourcecontext',
@@ -23,6 +24,7 @@ define([
     ], function (
         store,
         SPPlaylistListElement,
+        SPSearchHeaderElement,
         SPPlaylistContextElement,
         SPTrackContextElement,
         SPResourceContextElement,
@@ -44,6 +46,7 @@ define([
         SPMenuDataSource
         ) {
             document.registerElement('sp-playlist', SPPlaylistElement);
+            document.registerElement('sp-spotifysearchheader', SPSearchHeaderElement);
             document.registerElement('sp-playlistlist', SPPlaylistListElement);
             document.registerElement('sp-playlistcontext', SPPlaylistContextElement);
             document.registerElement('sp-resourcecontext', SPResourceContextElement);

@@ -5,7 +5,7 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
             this.classList.add('sp-view');
             //this.innerHTML = "<div style='padding: 13pt'><h3>Search results for '<span id='q'>'</span>";
             this.header = document.createElement('sp-header');
-
+            //this.appendChild(this.header);
             this.trackcontext = document.createElement('sp-trackcontext');
             this.trackcontext.setAttribute('expands', 'true');
             this.appendChild(this.trackcontext);
@@ -18,16 +18,23 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
         }
         activate() {
             let uri = ''
-            if (!this.hasAttribute('uri'))
-                return;
-            uri = this.getAttribute('uri');
-            let query = this.getAttribute('uri').substr('spotify:search:'.length);
-
+            if (this.hasAttribute('uri')) {
+                uri = this.getAttribute('uri');
+            } else {
+                uri = "spotify:search"
+            }
+            let query = uri .substr('spotify:search:'.length);
+            
+            
             this.header.tabBar.setState({
                 id: query,
-                uri: this.getAttribute('uri'),
+                uri: uri,
                 name: query,
-                type: 'search'
+                type: 'search',
+                objects: [{
+                    name: _e('Search'),
+                    id: 'search'
+                }]
             })
         }
         acceptsUri(uri) {
@@ -42,16 +49,14 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
                 let query = newVal.substr('spotify:search:'.length).split(/\:/)[0];
                 this.trackcontext.query = query;
                 this.trackcontext.setAttribute('uri', 'spotify:search:' + query + ':track');
-                this.header.setState({
-                    name: query,
-                    id: query,
-                    description: "Search results for '" + query + "'",
-                    uri: 'spotify:search: ' + query,
-                    type: 'search',
-                    images: [{
-                        url: ''
-                    }]
-                });
+               /* let tracks = await $.getJSON('/api/spotify/search/' + query + '/track');
+                let albums = await $.getJSON('/api/spotify/search/' + query + '/release');
+                let artists = await $.getJSON('/api/spotify/search/' + query + '/artist');
+                this.querySelector('sp-spotifysearchheader').state = ({
+                    tracks: tracks,
+                    artists: artists,
+                    albums: albums
+                });*/
             }
         }
     }
