@@ -10,6 +10,7 @@ define(['controls/view', 'plugins/spotify/controls/trackcontext', 'plugins/spoti
         
     
             this.trackcontext = document.createElement('sp-trackcontext');
+            this.trackcontext.setAttribute('expands', 'true');
             this.appendChild(this.trackcontext);
             this.trackcontext.setAttribute('columnheaders', 'name,artists,album,user,added_at');
             this.trackcontext.setAttribute('headers', 'true');

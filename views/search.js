@@ -7,6 +7,7 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
             this.header = document.createElement('sp-header');
 
             this.trackcontext = document.createElement('sp-trackcontext');
+            this.trackcontext.setAttribute('expands', 'true');
             this.appendChild(this.trackcontext);
                 
             this.trackcontext.setAttribute('showcolumnheaders', 'true');
