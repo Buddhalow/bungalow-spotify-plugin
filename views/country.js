@@ -39,6 +39,5 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
         }
     }
 
-    document.registerElement('sp-countryview', SPCountryViewElement);
     return SPCountryViewElement;
 })

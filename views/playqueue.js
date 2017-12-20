@@ -34,6 +34,5 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
         }
     }
 
-    document.registerElement('sp-playqueueview', SPPlayqueueViewElement);
-    return SPViewElement;
+    return SPPlayqueueViewElement;
 })

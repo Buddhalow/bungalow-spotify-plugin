@@ -39,7 +39,7 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
         
         }
         acceptsUri(uri) {
-            return new RegExp(/^bungalow:user:(.*)$/).test(uri);
+            return new RegExp(/^spotify:user:(.*)$/).test(uri);
         }
         navigate(uri) {
                 
@@ -87,6 +87,5 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
               this.activate();   
         }
     }
-
-    document.registerElement('sp-userview', SPUserViewElement);
+    return SPUserViewElement;
 });

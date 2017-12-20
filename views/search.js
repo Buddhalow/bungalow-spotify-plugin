@@ -19,7 +19,7 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
             if (!this.hasAttribute('uri'))
                 return;
             uri = this.getAttribute('uri');
-            let query = this.getAttribute('uri').substr('bungalow:search:'.length);
+            let query = this.getAttribute('uri').substr('spotify:search:'.length);
 
             this.header.tabBar.setState({
                 id: query,
@@ -29,7 +29,7 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
             })
         }
         acceptsUri(uri) {
-            return /^bungalow:search:(.*)$/.test(uri);
+            return /^spotify:search:(.*)$/.test(uri);
         }
         navigate() {
 
@@ -37,14 +37,14 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
         async attributeChangedCallback(attrName, oldVal, newVal) {
             if (!newVal) return;
             if (attrName === 'uri') {
-                let query = newVal.substr('bungalow:search:'.length).split(/\:/)[0];
+                let query = newVal.substr('spotify:search:'.length).split(/\:/)[0];
                 this.trackcontext.query = query;
-                this.trackcontext.setAttribute('uri', 'bungalow:search');
+                this.trackcontext.setAttribute('uri', 'spotify:search:' + query + ':track');
                 this.header.setState({
                     name: query,
                     id: query,
                     description: "Search results for '" + query + "'",
-                    uri: 'bungalow:search: ' + query,
+                    uri: 'spotify:search: ' + query,
                     type: 'search',
                     images: [{
                         url: ''

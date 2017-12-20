@@ -168,6 +168,6 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
             this.header.setState(state);
         }
     }
-    document.registerElement('sp-artistview', SPArtistViewElement);
+    return SPArtistViewElement;
 
 });

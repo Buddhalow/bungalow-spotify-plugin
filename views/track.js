@@ -1,5 +1,5 @@
 define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, store) {
-    class SPAlbumViewElement extends SPViewElement {
+    class SPTrackViewElement extends SPViewElement {
         createdCallback() {
             super.createdCallback();
             this.classList.add('sp-view');
@@ -52,6 +52,5 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
         }
     }
 
-    document.registerElement('sp-albumview', SPAlbumViewElement);
-    return SPViewElement;
+    return SPTrackViewElement;
 });

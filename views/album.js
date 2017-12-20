@@ -61,6 +61,5 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
         }
     }
 
-    document.registerElement('sp-albumview', SPAlbumViewElement);
-    return SPViewElement;
+    return SPAlbumViewElement;
 });

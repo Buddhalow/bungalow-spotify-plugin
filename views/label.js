@@ -29,6 +29,5 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
         }
     }
 
-    document.registerElement('sp-labelview', SPLabelViewElement);
     return SPLabelViewElement;
 })

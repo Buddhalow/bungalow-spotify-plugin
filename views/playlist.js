@@ -21,11 +21,34 @@ define(['controls/view', 'plugins/spotify/controls/trackcontext', 'plugins/spoti
             
 
         }
+        invalidate() {
+            this.invalid = true;
+        }
+        insertUri(uri, data) {
+            $.ajax({
+                method: 'POST',
+                data: JSON.stringify({
+                    tracks: ['spotify:' + data.split(':').slice(1).join(':')],
+                    position: 0
+                }),
+                contentType: 'application/json',
+                url: '/api/spotify/' + uri.split(':').slice(1).join('/') + '/track'
+            }, function (result) {
+                alert("Track added successfully");
+            }, function (err) {
+                alert("Error");
+            });
+            this.invalidate();
+        }
         acceptsUri(uri) {
             return /^bungalow:user:(.*):playlist:([a-zA-Z0-9]+)$/.test(uri);
         }
         activate() {
             super.activate();
+            if (this.invalid) {
+                this.invalid = false;
+                this.setAttribute('uri', this.getAttribute('uri'));
+            }
             this.trackcontext.activate();
             if (this.state == null)
                 return;
@@ -36,6 +59,7 @@ define(['controls/view', 'plugins/spotify/controls/trackcontext', 'plugins/spoti
                     name: 'Playlist'
                 }]
             });
+            
         }
         navigate(uri) {
         }
@@ -78,6 +102,5 @@ define(['controls/view', 'plugins/spotify/controls/trackcontext', 'plugins/spoti
         }
     }
 
-    document.registerElement('sp-playlistview', SPPlaylistViewElement);
     return SPPlaylistViewElement;
 })

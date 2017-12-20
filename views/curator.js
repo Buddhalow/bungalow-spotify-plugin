@@ -36,6 +36,5 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
         
     }
 
-    document.registerElement('sp-curatorview', SPCuratorViewElement);
     return SPCuratorViewElement;
 })

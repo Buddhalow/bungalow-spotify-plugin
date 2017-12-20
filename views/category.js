@@ -27,7 +27,7 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
         
         }
         acceptsUri(uri) {
-            return new RegExp(/^bungalow:category:(.*)$/).test(uri);
+            return new RegExp(/^bungalow:category:(.*)$/g).test(uri);
         }
         navigate(uri) {
                 
