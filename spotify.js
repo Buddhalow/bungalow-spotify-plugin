@@ -107,7 +107,7 @@ define([
                 var data =  [
                     {
                         name: _e('Library'),
-                        uri: 'bungalow:internal:library'
+                        uri: 'spotify:internal:library'
                     }
                 ];
                 
