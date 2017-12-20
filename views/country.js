@@ -18,15 +18,17 @@ define(['controls/view', 'plugins/spotify/store'], function (SPViewElement, stor
             if (attrName == 'uri') {
 
                 let result = await store.request('GET', newVal);
-                this.state = result;
-
+                this.setState({
+                    object: result
+                });
                 this.topTracks.setAttribute('uri', newVal + ':top:5');
-                this.setState(this.state);
+                
                 this.activate();
             }
         }
         setState(state) {
             this.header.setState(state);
+            debugger;
         }
         activate() {
             super.activate();

@@ -17,9 +17,7 @@ define([
             this.designer = new SPTrackTableDesigner();
             this.dataSource = new SPRestDataSource('', this.query, this.fields, this.maxRows);
             this.delegate = new SPTrackTableDelegate(this);
-            this.delegate = new SPTrackTableDelegate();
             let uri =  this.getAttribute('uri');
-         
             this.attributeChangedCallback('uri', null, uri);
             this.attributeChangedCallback('fields', null, this.getAttribute('fields'));
     

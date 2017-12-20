@@ -71,9 +71,7 @@ return class SPResourceTableDesigner extends SPTableDesigner {
            td.innerHTML = val.filter(o => {
               if (!this.table.hasAttribute('data-context-artist-uri'))
                   return true;
-              return o.uri != this.table.getAttribute('data-context-artist-uri').replace(
-                  'bungalow', 'spotify'    
-              );
+              return o.uri != this.table.getAttribute('data-context-artist-uri')
                
            }).map((v, i) => {
               
