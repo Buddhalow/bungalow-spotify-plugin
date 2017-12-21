@@ -92,13 +92,6 @@ define(['controls/view', 'plugins/spotify/controls/trackcontext', 'plugins/spoti
                          image.style.width = '32pt';
                      })
                 }*/
-                window.GlobalTabBar.setState({
-                    object: this.state,
-                    objects: [{
-                        name: 'Playlist'
-                    }]
-                });
-                this.activate();
             }
         }
     }
