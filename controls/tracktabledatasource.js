@@ -48,6 +48,11 @@ define(['controls/tabledatasource', 'plugins/spotify/store'], function (SPTableD
             let result = await store.request('PUT', this.uri, {}, data);
             this.refresh();
         }
+        async insertObjectsAt(objects, position) {
+            let data = {uris: objects.map(o => o.uri), position: position};
+            let result = await store.request('POST', this.uri + ':track', {}, data);
+            this.refresh();
+        }
         getNumberOfRows(row) {
             if (!row) {
                 if (this.table.maxRows > 0 && this.table.maxRows < this.objects.length)

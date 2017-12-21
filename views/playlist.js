@@ -26,23 +26,13 @@ define(['controls/view', 'plugins/spotify/controls/trackcontext', 'plugins/spoti
             this.invalid = true;
         }
         insertUri(uri, data) {
-            $.ajax({
-                method: 'POST',
-                data: JSON.stringify({
-                    tracks: ['spotify:' + data.split(':').slice(1).join(':')],
-                    position: 0
-                }),
-                contentType: 'application/json',
-                url: '/api/spotify/' + uri.split(':').slice(1).join('/') + '/track'
-            }, function (result) {
-                alert("Track added successfully");
-            }, function (err) {
-                alert("Error");
-            });
-            this.invalidate();
+            this.trackcontext.insertObjectsAt([{
+                name: '',
+                uri: uri
+            }], 0);
         }
         acceptsUri(uri) {
-            return /^bungalow:user:(.*):playlist:([a-zA-Z0-9]+)$/.test(uri);
+            return /^spotify:user:(.*):playlist:([a-zA-Z0-9]+)$/.test(uri);
         }
         activate() {
             super.activate();
