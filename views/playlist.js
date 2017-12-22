@@ -11,6 +11,9 @@ define(['controls/view', 'plugins/spotify/controls/trackcontext', 'plugins/spoti
     
             this.trackcontext = document.createElement('sp-trackcontext');
             this.trackcontext.setAttribute('expands', 'true');
+            this.trackcontext.canReorderRows = true;
+            this.trackcontext.canAddRows = true;
+            this.trackcontext.canDeleteRows = true;
             this.appendChild(this.trackcontext);
             this.trackcontext.setAttribute('columnheaders', 'name,artists,album,user,added_at');
             this.trackcontext.setAttribute('headers', 'true');
@@ -26,10 +29,10 @@ define(['controls/view', 'plugins/spotify/controls/trackcontext', 'plugins/spoti
             this.invalid = true;
         }
         insertUri(uri, data) {
-            this.trackcontext.insertObjectsAt([{
-                name: '',
-                uri: uri
-            }], 0);
+            $.getJSON('/api/' + data.split(':').join('/') + '/track').then((result) => {
+                this.trackcontext.insertObjectsAt(result.objects, 0);
+            })
+            
         }
         acceptsUri(uri) {
             return /^spotify:user:(.*):playlist:([a-zA-Z0-9]+)$/.test(uri);
@@ -58,8 +61,9 @@ define(['controls/view', 'plugins/spotify/controls/trackcontext', 'plugins/spoti
             if (!newVal) return;
             if (attrName === 'uri') {
                 newVal = 'spotify:' + newVal.split(':').splice(1).join(':');
+                let result = await store.request('GET', newVal);
                 this.trackcontext.setAttribute('showcolumnheaders', 'true');
-                this.trackcontext.setAttribute('uri', newVal + ':track');
+                this.trackcontext.setAttribute('uri', newVal + ':snapshot:' + result.snapshot_id + ':track');
                 this.header.setAttribute('uri', newVal);
                /* this.state.features = result.tracks.objects.map((o) => {
                     return o.artists[0]
