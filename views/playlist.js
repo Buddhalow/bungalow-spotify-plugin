@@ -55,16 +55,35 @@ define(['controls/view', 'plugins/spotify/controls/trackcontext', 'plugins/spoti
             });
             
         }
+        activateSilent() {
+            super.activate();
+            if (this.invalid) {
+                this.invalid = false;
+                this.setAttribute('uri', this.getAttribute('uri'));
+            }
+            this.trackcontext.activate();
+            if (this.state == null)
+                return;
+            
+        }
         navigate(uri) {
+        }
+        async setUri(newVal) {
+            return new Promise((resolve, fail) => {
+                    store.request('GET', newVal).then((result) => {
+                    this.trackcontext.setAttribute('showcolumnheaders', 'true');
+                    this.trackcontext.setAttribute('uri', newVal + ':snapshot:' + result.snapshot_id + ':track');
+                    this.header.setState({object: result});
+             
+                    resolve(result);        
+                });
+            })
+           
         }
         async attributeChangedCallback(attrName, oldVal, newVal) {
             if (!newVal) return;
             if (attrName === 'uri') {
-                newVal = 'spotify:' + newVal.split(':').splice(1).join(':');
-                let result = await store.request('GET', newVal);
-                this.trackcontext.setAttribute('showcolumnheaders', 'true');
-                this.trackcontext.setAttribute('uri', newVal + ':snapshot:' + result.snapshot_id + ':track');
-                this.header.setAttribute('uri', newVal);
+                await this.setUri(newVal)
                /* this.state.features = result.tracks.objects.map((o) => {
                     return o.artists[0]
                 });
